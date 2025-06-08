@@ -4,12 +4,8 @@ import { NextResponse } from "next/server";
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 
 function extractJSON(text: string) {
-  // Sometimes the AI response is wrapped in ```json ... ``` or ``` ... ```
-  // This cleans that up before parsing
   const jsonMatch = text.match(/```json\s*([\s\S]*?)```|```([\s\S]*?)```|([\s\S]*)/);
   if (!jsonMatch) return text;
-
-  // jsonMatch groups: [fullMatch, group1(json), group2(code), group3(no code block)]
   return (jsonMatch[1] || jsonMatch[2] || jsonMatch[3]).trim();
 }
 
@@ -58,7 +54,16 @@ Respond ONLY with a JSON object in the following format, without any extra expla
 }
 `;
 
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const model = genAI.getGenerativeModel({
+      model: "gemini-1.5-flash",
+      generationConfig: {
+        temperature: 1.2,      // 🔥 randomness
+        topK: 40,
+        topP: 0.9,
+        maxOutputTokens: 1024,
+      },
+    });
+
     const result = await model.generateContent(prompt);
     console.log("AI request sent with prompt:", prompt);
 
@@ -66,7 +71,6 @@ Respond ONLY with a JSON object in the following format, without any extra expla
     const rawText = (await response.text()).trim();
     console.log("AI raw response text:", rawText);
 
-    // Extract possible JSON inside markdown/code blocks
     const jsonText = extractJSON(rawText);
 
     let data;
@@ -74,7 +78,6 @@ Respond ONLY with a JSON object in the following format, without any extra expla
       data = JSON.parse(jsonText);
     } catch (parseErr) {
       console.error("Failed to parse AI response as JSON:", parseErr);
-      // fallback to raw text if JSON parse fails
       return NextResponse.json({ message: rawText }, { status: 200 });
     }
 
