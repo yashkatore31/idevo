@@ -1,4 +1,4 @@
-"use client";
+ "use client";
 
 import { useState } from "react";
 
@@ -6,6 +6,19 @@ export default function Home() {
   const [role, setRole] = useState("");
   const [category1, setCategory1] = useState("");
   const [technology1, setTechnology1] = useState("");
+
+  const categoryTechnologyMap: Record<string, string[]> = {
+    AI: ["TensorFlow", "PyTorch", "LangChain", "OpenAI API"],
+    API: ["GraphQL", "REST", "tRPC", "Postman"],
+    Backend: ["Node.js", "Django", "Spring Boot", "Express"],
+    Frontend: ["React", "Next.js", "Vue", "Svelte"],
+    Database: ["MongoDB", "PostgreSQL", "MySQL", "Supabase"],
+    DevOps: ["Docker", "Kubernetes", "Terraform", "GitHub Actions"],
+    Testing: ["Jest", "Cypress", "Playwright", "Vitest"],
+    Mobile: ["React Native", "Flutter", "Swift", "Kotlin"],
+  };
+
+  const technologyOptions = category1 ? categoryTechnologyMap[category1] || [] : [];
 
   return (
     <div className="mt-10 px-4 sm:px-6 lg:px-8 max-w-screen-lg mx-auto">
@@ -19,6 +32,7 @@ export default function Home() {
         Create advanced developer tools that software engineers would use directly in their workflow.
         Focus on 2025's most cutting-edge technologies and capabilities.
       </p>
+
       <div className="bg-card border rounded-lg shadow-sm my-6 border-gray-300 py-3 px-3">
         <div className="flex flex-col p-2">
           <div className="font-semibold text-2xl">Select Your Tech Stack</div>
@@ -31,11 +45,7 @@ export default function Home() {
             <p className="text-gray-500 tracking-tight text-sm py-3">
               Select your role to get tailored developer tool recommendations suitable for your specific workflow.
             </p>
-            <label htmlFor="dev-role" className="text-sm font-medium leading-none block my-4">
-              Role
-            </label>
-
-            {/* Wrapper to include select and chevron */}
+            <label htmlFor="dev-role" className="text-sm font-medium leading-none block my-4">Role</label>
             <div className="relative">
               <select
                 id="dev-role"
@@ -53,110 +63,203 @@ export default function Home() {
                 <option value="Machine Learning Engineer">Machine Learning Engineer</option>
                 <option value="Security Engineer">Security Engineer</option>
               </select>
-
-              {/* Chevron Icon */}
               <div className="pointer-events-none absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                 </svg>
               </div>
-
             </div>
-            {!role &&
-              <div className="bg-card text-center py-6 border mt-6 border-dashed rounded-md text-gray-500 border-gray-400"> <p>please select your developer role first</p></div>}
-            {role && 
+
+            {!role ? (
+              <div className="bg-card text-center py-6 border mt-6 border-dashed rounded-md text-gray-500 border-gray-400">
+                <p>please select your developer role first</p>
+              </div>
+            ) : (
+              <div>
+                <div>
+                <div className="font-medium text-lg mt-5">Select Technologies and Framework</div>
+                <p className="text-gray-500 tracking-tight text-sm py-3">
+                  Select the technologies which you have hand on experience 
+                </p>
+
+                <div className="font-medium text-lg my-3">Technology Selection 1</div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+                  {/* Category Selector */}
+                  <div>
+                    <label htmlFor="dev-category1" className="text-sm font-medium block my-3">Category</label>
+                    <div className="relative">
+                      <select
+                        id="dev-category1"
+                        value={category1}
+                        onChange={(e) => {
+                          setCategory1(e.target.value);
+                          setTechnology1(""); // Reset technology if category changes
+                        }}
+                        className="appearance-none w-full rounded-md border border-gray-300 bg-white px-2 py-2 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                      >
+                        <option value="">Select your Category</option>
+                        {Object.keys(categoryTechnologyMap).map((cat) => (
+                          <option key={cat} value={cat}>{cat}</option>
+                        ))}
+                      </select>
+                      <div className="pointer-events-none absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Technology Selector */}
+                  <div>
+                    <label htmlFor="dev-technology1" className="text-sm font-medium block my-3">Technology</label>
+                    <div className="relative">
+                      <select
+                        id="dev-technology1"
+                        value={technology1}
+                        onChange={(e) => setTechnology1(e.target.value)}
+                        className="appearance-none w-full rounded-md border border-gray-300 bg-white px-2 py-2 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                        disabled={!category1}
+                      >
+                        <option value="">Select a technology</option>
+                        {technologyOptions.map((tech) => (
+                          <option key={tech} value={tech}>{tech}</option>
+                        ))}
+                      </select>
+                      <div className="pointer-events-none absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div data-orientation="horizontal" role="none" className="shrink-0 bg-border h-[1px] w-full my-4"></div>
+              {/* second */}
               <div>
                 <div className="font-medium text-lg mt-5">Select Technologies and Framework</div>
-            <p className="text-gray-500 tracking-tight text-sm py-3">
-              Select the technologies which you have hand on experience 
-            </p>
-             <div className="font-medium text-lg my-3">Technology Selection 1</div>
-             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
-              <div><label htmlFor="dev-category1" className="text-sm font-medium leading-none block my-3">
-              Category
-            </label>
+                <p className="text-gray-500 tracking-tight text-sm py-3">
+                  Select the technologies which you have hand on experience 
+                </p>
 
-            {/* Wrapper to include select and chevron */}
-            <div className="relative">
-              <select
-                id="dev-category1"
-                value={category1}
-                onChange={(e) => setCategory1(e.target.value)}
-                className="appearance-none w-full rounded-md border border-gray-300 bg-white px-2 py-2 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-black"
-              >
-                <option value="">Select your Category</option>
-                <option value="AI">AI</option>
-                <option value="API">API</option>
-                <option value="Backend">Backend</option>
-                <option value="Frontend">Frontend</option>
-                <option value="Database">Database</option>
-                <option value="DevOps">DevOps</option>
-                <option value="Testing">Testing</option>
-                <option value="Mobile">Mobile</option>
-              </select>
+                <div className="font-medium text-lg my-3">Technology Selection 1</div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+                  {/* Category Selector */}
+                  <div>
+                    <label htmlFor="dev-category1" className="text-sm font-medium block my-3">Category</label>
+                    <div className="relative">
+                      <select
+                        id="dev-category1"
+                        value={category1}
+                        onChange={(e) => {
+                          setCategory1(e.target.value);
+                          setTechnology1(""); // Reset technology if category changes
+                        }}
+                        className="appearance-none w-full rounded-md border border-gray-300 bg-white px-2 py-2 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                      >
+                        <option value="">Select your Category</option>
+                        {Object.keys(categoryTechnologyMap).map((cat) => (
+                          <option key={cat} value={cat}>{cat}</option>
+                        ))}
+                      </select>
+                      <div className="pointer-events-none absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
 
-              {/* Chevron Icon */}
-              <div className="pointer-events-none absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                </svg>
+                  {/* Technology Selector */}
+                  <div>
+                    <label htmlFor="dev-technology1" className="text-sm font-medium block my-3">Technology</label>
+                    <div className="relative">
+                      <select
+                        id="dev-technology1"
+                        value={technology1}
+                        onChange={(e) => setTechnology1(e.target.value)}
+                        className="appearance-none w-full rounded-md border border-gray-300 bg-white px-2 py-2 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                        disabled={!category1}
+                      >
+                        <option value="">Select a technology</option>
+                        {technologyOptions.map((tech) => (
+                          <option key={tech} value={tech}>{tech}</option>
+                        ))}
+                      </select>
+                      <div className="pointer-events-none absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
+              <div data-orientation="horizontal" role="none" className="shrink-0 bg-border h-[1px] w-full my-4"></div>
+              {/* third */}
+              <div>
+                <div className="font-medium text-lg mt-5">Select Technologies and Framework</div>
+                <p className="text-gray-500 tracking-tight text-sm py-3">
+                  Select the technologies which you have hand on experience 
+                </p>
 
-            </div></div>
-            <div><label htmlFor="dev-technology1" className="text-sm font-medium leading-none block my-3">
-              Technology
-            </label>
+                <div className="font-medium text-lg my-3">Technology Selection 1</div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+                  {/* Category Selector */}
+                  <div>
+                    <label htmlFor="dev-category1" className="text-sm font-medium block my-3">Category</label>
+                    <div className="relative">
+                      <select
+                        id="dev-category1"
+                        value={category1}
+                        onChange={(e) => {
+                          setCategory1(e.target.value);
+                          setTechnology1(""); // Reset technology if category changes
+                        }}
+                        className="appearance-none w-full rounded-md border border-gray-300 bg-white px-2 py-2 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                      >
+                        <option value="">Select your Category</option>
+                        {Object.keys(categoryTechnologyMap).map((cat) => (
+                          <option key={cat} value={cat}>{cat}</option>
+                        ))}
+                      </select>
+                      <div className="pointer-events-none absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
 
-            {/* Wrapper to include select and chevron */}
-            <div className="relative">
-              <select
-                id="dev-technology1"
-                value={technology1}
-                onChange={(e) => setTechnology1(e.target.value)}
-                className="appearance-none w-full rounded-md border border-gray-300 bg-white px-2 py-2 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-black"
-              >
-                <option value="">Select your role</option>
-                <option value="Frontend Engineer">Frontend Engineer</option>
-                <option value="Backend Engineer">Backend Engineer</option>
-                <option value="Full Stack Engineer">Full Stack Engineer</option>
-                <option value="DevOps Engineer">DevOps Engineer</option>
-                <option value="Data Engineer">Data Engineer</option>
-                <option value="Data Analyst">Data Analyst</option>
-                <option value="Machine Learning Engineer">Machine Learning Engineer</option>
-                <option value="Security Engineer">Security Engineer</option>
-              </select>
-
-              {/* Chevron Icon */}
-              <div className="pointer-events-none absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                </svg>
+                  {/* Technology Selector */}
+                  <div>
+                    <label htmlFor="dev-technology1" className="text-sm font-medium block my-3">Technology</label>
+                    <div className="relative">
+                      <select
+                        id="dev-technology1"
+                        value={technology1}
+                        onChange={(e) => setTechnology1(e.target.value)}
+                        className="appearance-none w-full rounded-md border border-gray-300 bg-white px-2 py-2 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                        disabled={!category1}
+                      >
+                        <option value="">Select a technology</option>
+                        {technologyOptions.map((tech) => (
+                          <option key={tech} value={tech}>{tech}</option>
+                        ))}
+                      </select>
+                      <div className="pointer-events-none absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-
-            </div></div>
-             </div>
-              </div>}
+              
+              </div>
+            )}
           </form>
         </div>
       </div>
