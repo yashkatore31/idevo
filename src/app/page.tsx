@@ -1,103 +1,152 @@
-import Image from "next/image";
+"use client";
+
+import { useState } from "react";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [role, setRole] = useState("");
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  return (
+    <div className="mt-10 px-4 sm:px-6 lg:px-8 max-w-screen-lg mx-auto">
+      <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold leading-tight text-center">
+        Create Stunning Project Idea With{" "}
+        <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-cyan-300">
+          Idevo
+        </span>
+      </h1>
+      <p className="text-gray-500 mt-5 text-base tracking-tight sm:text-lg lg:text-xl leading text-center">
+        Create advanced developer tools that software engineers would use directly in their workflow.
+        Focus on 2025's most cutting-edge technologies and capabilities.
+      </p>
+      <div className="bg-card border rounded-lg shadow-sm my-6 border-gray-300 py-3 px-3">
+        <div className="flex flex-col p-2">
+          <div className="font-semibold text-2xl">Select Your Tech Stack</div>
+          <p className="text-gray-500 tracking-tight text-sm">
+            Choose at least two technologies from different categories to create an advanced developer tool that leverages their most cutting-edge capabilities as of 2025.
+          </p>
+
+          <form className="pt-5">
+            <div className="font-medium text-lg">Your Developer Role</div>
+            <p className="text-gray-500 tracking-tight text-sm py-3">
+              Select your role to get tailored developer tool recommendations suitable for your specific workflow.
+            </p>
+            <label htmlFor="dev-role" className="text-sm font-medium leading-none block my-4">
+              Role
+            </label>
+
+            {/* Wrapper to include select and chevron */}
+            <div className="relative">
+              <select
+                id="dev-role"
+                value={role}
+                onChange={(e) => setRole(e.target.value)}
+                className="appearance-none w-full rounded-md border border-gray-300 bg-white px-2 py-2 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+              >
+                <option value="">Select your role</option>
+                <option value="Frontend Engineer">Frontend Engineer</option>
+                <option value="Backend Engineer">Backend Engineer</option>
+                <option value="Full Stack Engineer">Full Stack Engineer</option>
+                <option value="DevOps Engineer">DevOps Engineer</option>
+                <option value="Data Engineer">Data Engineer</option>
+                <option value="Data Analyst">Data Analyst</option>
+                <option value="Machine Learning Engineer">Machine Learning Engineer</option>
+                <option value="Security Engineer">Security Engineer</option>
+              </select>
+
+              {/* Chevron Icon */}
+              <div className="pointer-events-none absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
+
+            </div>
+            {!role &&
+              <div className="bg-card text-center py-6 border mt-6 border-dashed rounded-md text-gray-500 border-gray-400"> <p>please select your developer role first</p></div>}
+            {role && 
+              <div>
+                <div className="font-medium text-lg mt-5">Select Technologies and Framework</div>
+            <p className="text-gray-500 tracking-tight text-sm py-3">
+              Select the technologies which you have hand on experience 
+            </p>
+             <div className="font-medium text-lg my-3">Select Technologies and Framework</div>
+             <div className="flex flex-row w-full">
+              <div className="relative">
+              <select
+                id="dev-role"
+                value={role}
+                onChange={(e) => setRole(e.target.value)}
+                className="appearance-none w-full rounded-md border border-gray-300 bg-white px-2 py-2 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+              >
+                <option value="">Select your role</option>
+                <option value="Frontend Engineer">Frontend Engineer</option>
+                <option value="Backend Engineer">Backend Engineer</option>
+                <option value="Full Stack Engineer">Full Stack Engineer</option>
+                <option value="DevOps Engineer">DevOps Engineer</option>
+                <option value="Data Engineer">Data Engineer</option>
+                <option value="Data Analyst">Data Analyst</option>
+                <option value="Machine Learning Engineer">Machine Learning Engineer</option>
+                <option value="Security Engineer">Security Engineer</option>
+              </select>
+
+              {/* Chevron Icon */}
+              <div className="pointer-events-none absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
+
+            </div><div className="relative">
+              <select
+                id="dev-role"
+                value={role}
+                onChange={(e) => setRole(e.target.value)}
+                className="appearance-none w-full rounded-md border border-gray-300 bg-white px-2 py-2 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+              >
+                <option value="">Select your role</option>
+                <option value="Frontend Engineer">Frontend Engineer</option>
+                <option value="Backend Engineer">Backend Engineer</option>
+                <option value="Full Stack Engineer">Full Stack Engineer</option>
+                <option value="DevOps Engineer">DevOps Engineer</option>
+                <option value="Data Engineer">Data Engineer</option>
+                <option value="Data Analyst">Data Analyst</option>
+                <option value="Machine Learning Engineer">Machine Learning Engineer</option>
+                <option value="Security Engineer">Security Engineer</option>
+              </select>
+
+              {/* Chevron Icon */}
+              <div className="pointer-events-none absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
+
+            </div>
+             </div>
+              </div>}
+          </form>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </div>
     </div>
   );
 }
