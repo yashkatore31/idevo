@@ -196,7 +196,7 @@ export default function Home() {
   };
 
   return (
-    <div className="m-10 px-4 sm:px-6 lg:px-8 max-w-screen-lg mx-auto">
+    <div className="mb-5 m-10 px-4 sm:px-6 lg:px-8 max-w-screen-lg mx-auto">
       <div className="max-w-3xl mx-auto items-center text-center">
 <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-tight bg-clip-text text-transparent bg-[length:200%] bg-gradient-to-r from-orange-400 via-pink-500 to-red-600 animate-gradient [text-shadow:_0_2px_8px_rgba(236,_72,_153,_0.5)]">
   Idevo
