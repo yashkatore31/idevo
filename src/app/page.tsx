@@ -40,7 +40,7 @@ export default function Home() {
   }, []);
 
 
-  const canGenerate = usageCount < 3;
+  const canGenerate = usageCount < 2;
   const categoryTechnologyMap: Record<string, string[]> = {
     AI: ["TensorFlow", "PyTorch", "LangChain", "OpenAI API", "Hugging Face", "Stable Diffusion", "FastAI"],
     API: ["Gemini API", "GraphQL", "REST", "tRPC", "Postman", "gRPC", "OpenAPI", "API Gateway"],
