@@ -23,7 +23,7 @@ export default function Home() {
 
   const categoryTechnologyMap: Record<string, string[]> = {
     AI: ["TensorFlow", "PyTorch", "LangChain", "OpenAI API", "Hugging Face", "Stable Diffusion", "FastAI"],
-    API: ["GraphQL", "REST", "tRPC", "Postman", "gRPC", "OpenAPI", "API Gateway"],
+    API: ["Gemini API", "GraphQL", "REST", "tRPC", "Postman", "gRPC", "OpenAPI", "API Gateway"],
     Backend: ["Node.js", "Django", "Spring Boot", "Express", "NestJS", "Go (Golang)", "Ruby on Rails", "ASP.NET Core"],
     Frontend: ["React", "Next.js", "Vue", "Svelte", "Angular", "SolidJS", "Qwik"],
     Database: ["MongoDB", "PostgreSQL", "MySQL", "Supabase", "Redis", "Cassandra", "CockroachDB", "Neo4j"],
@@ -33,7 +33,7 @@ export default function Home() {
     Cloud: ["AWS", "Azure", "Google Cloud", "DigitalOcean", "Vercel", "Netlify", "Cloudflare"],
     Security: ["OWASP", "Snyk", "Burp Suite", "Wireshark", "Metasploit", "HashiCorp Vault"],
     DataEngineering: ["Apache Spark", "Kafka", "Airflow", "Flink", "Beam", "DBT"],
-    Blockchain: ["Ethereum", "Solidity", "Polkadot", "Chainlink", "IPFS", "Web3.js"],
+    Blockchain: ["Ethereum", "Solidity", "Polkadot", "Chainlink", "IPFS", "Web3"],
     UXUI: ["Figma", "Adobe XD", "Sketch", "Framer", "InVision"],
     AIops: ["DataDog", "New Relic", "Prometheus", "Grafana", "ELK Stack"],
   };
@@ -45,6 +45,7 @@ export default function Home() {
   // Helper to render each category + technology selector block
   const renderTechSelection = (
     number: number,
+    catlabel: String,
     category: string,
     setCategory: React.Dispatch<React.SetStateAction<string>>,
     technology: string,
@@ -55,7 +56,7 @@ export default function Home() {
     return (
       <div key={number} className="mb-6">
         <div className="font-medium text-lg mt-5">
-          Select Technologies and Framework {number}
+          {catlabel}
         </div>
         <p className="text-gray-500 tracking-tight text-sm py-3">
           Select the technologies you have hands-on experience with.
@@ -64,8 +65,7 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
           {/* Category Selector */}
           <div>
-            <label className="text-sm font-medium block my-3">Category</label>
-            <div className="relative">
+            <label className="text-sm font-medium block my-3">Category</label><div className="relative">
               <select
                 value={category}
                 onChange={(e) => {
@@ -287,9 +287,9 @@ export default function Home() {
               </div>
             ) : (
               <>
-                {renderTechSelection(1, category1, setCategory1, technology1, setTechnology1)}
-                {renderTechSelection(2, category2, setCategory2, technology2, setTechnology2)}
-                {renderTechSelection(3, category3, setCategory3, technology3, setTechnology3)}
+                {renderTechSelection(1,"Primary Tech Stack", category1, setCategory1, technology1, setTechnology1)}
+                {renderTechSelection(2,"Secondary Tech Stack", category2, setCategory2, technology2, setTechnology2)}
+                {renderTechSelection(3,"Optional Tech Stack", category3, setCategory3, technology3, setTechnology3)}
 
                 <div className="mt-8">
                   <div className="font-medium text-lg mb-2">Project Complexity Level</div>
@@ -372,7 +372,7 @@ export default function Home() {
                       </span>
                     </button>
                   </div>
-                  <h2 className="text-2xl font-semibold text-blue-500 mb-2 mr-5">{result.projectIdea?.title}</h2>
+                  <h2 className="text-2xl font-semibold text-pink-500 mb-2 mr-5">{result.projectIdea?.title}</h2>
                   <p className="text-gray-700 text-sm sm:text-base">{result.projectIdea?.description}</p>
                 </div>
 
@@ -399,7 +399,7 @@ export default function Home() {
                       </span>
                     </button>
                   </div>
-                  <h2 className="text-2xl font-semibold text-blue-500 mb-4 mr-5">Implementation</h2>
+                  <h2 className="text-2xl font-semibold text-pink-500 mb-4 mr-5">Implementation</h2>
                   <ol className="list-decimal list-inside space-y-4 text-gray-700 text-sm sm:text-base">
                     {result.implementationSteps?.map((stepObj: any, idx: number) => (
                       <li key={idx}>
@@ -434,7 +434,7 @@ export default function Home() {
                     </button>
                   </div>
 
-                  <h2 className="text-2xl font-bold text-blue-500 mr-5">{result.resumeSummary?.title}</h2>
+                  <h2 className="text-2xl font-bold text-pink-500 mr-5">{result.resumeSummary?.title}</h2>
 
                   {/* Technologies as soft badges */}
                   <div className="flex flex-wrap gap-2 ">
