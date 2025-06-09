@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as Slider from "@radix-ui/react-slider";
 import { MdOutlineContentCopy } from "react-icons/md";
 import Lottie from "lottie-react";
@@ -19,9 +19,28 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [customInput, setCustomInput] = useState("");
+  const [usageCount, setUsageCount] = useState(0);
+  const [usageDate, setUsageDate] = useState("");
   const [result, setResult] = useState<any | null>(null);
 
+  useEffect(() => {
+    const storedDate = localStorage.getItem("usageDate");
+    const storedCount = localStorage.getItem("usageCount");
+    const today = new Date().toISOString().slice(0, 10);
 
+    if (storedDate === today) {
+      setUsageCount(storedCount ? parseInt(storedCount) : 0);
+      setUsageDate(today);
+    } else {
+      localStorage.setItem("usageDate", today);
+      localStorage.setItem("usageCount", "0");
+      setUsageCount(0);
+      setUsageDate(today);
+    }
+  }, []);
+
+
+  const canGenerate = usageCount < 3;
   const categoryTechnologyMap: Record<string, string[]> = {
     AI: ["TensorFlow", "PyTorch", "LangChain", "OpenAI API", "Hugging Face", "Stable Diffusion", "FastAI"],
     API: ["Gemini API", "GraphQL", "REST", "tRPC", "Postman", "gRPC", "OpenAPI", "API Gateway"],
@@ -142,63 +161,75 @@ export default function Home() {
   };
 
   // Submit handler with validation + fetch call
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    setResult(null);
+ const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setError("");
+  setResult(null);
 
-    // Validation
-    if (!role) {
-      setError("Please select your role.");
-      return;
-    }
-    if (!category1 || !technology1 || !category2 || !technology2) {
-      setError("Please select at least two categories and their technologies.");
-      return;
-    }
-    if (
-      category1 === category2 ||
-      (category3 && (category3 === category1 || category3 === category2))
-    ) {
-      setError("Please select different categories.");
-      return;
-    }
+  // Check daily limit before validation and API call
+  if (!canGenerate) {
+    setError("You have reached the daily limit of 3 generations.");
+    return;
+  }
 
-    setLoading(true);
+  // Validation (your existing)
+  if (!role) {
+    setError("Please select your role.");
+    return;
+  }
+  if (!category1 || !technology1 || !category2 || !technology2) {
+    setError("Please select at least two categories and their technologies.");
+    return;
+  }
+  if (
+    category1 === category2 ||
+    (category3 && (category3 === category1 || category3 === category2))
+  ) {
+    setError("Please select different categories.");
+    return;
+  }
 
-    const payload = {
-      role,
-      stacks: [
-        { category: category1, technology: technology1 },
-        { category: category2, technology: technology2 },
-        ...(category3 && technology3 ? [{ category: category3, technology: technology3 }] : []),
-      ],
-      complexity: complexityLabels[complexityValue[0]],
-      customInput: customInput.trim() || undefined,
-    };
+  setLoading(true);
 
-    try {
-      const res = await fetch("/api/generative-tool/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      if (!res.ok) throw new Error(`API error: ${res.statusText}`);
-
-      const data = await res.json();
-
-      setResult(data);
-    } catch (err: any) {
-      setError(err.message || "Something went wrong during generation.");
-    } finally {
-      setLoading(false);
-    }
+  const payload = {
+    role,
+    stacks: [
+      { category: category1, technology: technology1 },
+      { category: category2, technology: technology2 },
+      ...(category3 && technology3 ? [{ category: category3, technology: technology3 }] : []),
+    ],
+    complexity: complexityLabels[complexityValue[0]],
+    customInput: customInput.trim() || undefined,
   };
+
+  try {
+    const res = await fetch("/api/generative-tool/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) throw new Error(`API error: ${res.statusText}`);
+
+    const data = await res.json();
+
+    setResult(data);
+
+    // On successful generation, increment usage count and store in localStorage
+    const newCount = usageCount + 1;
+    setUsageCount(newCount);
+    localStorage.setItem("usageCount", newCount.toString());
+  } catch (err: any) {
+    setError(err.message || "Something went wrong during generation.");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <div className="mb-5 m-10 px-4 sm:px-6 lg:px-8 max-w-screen-lg mx-auto">
-      
+
       <div className="max-w-3xl mx-auto items-center text-center">
         <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-tight bg-clip-text text-transparent bg-[length:200%] bg-gradient-to-r from-orange-400 via-pink-500 to-red-600 animate-gradient [text-shadow:_0_2px_8px_rgba(236,_72,_153,_0.5)]">
           Idevo
@@ -358,15 +389,15 @@ export default function Home() {
               </div>
             )}
             {loading && (
-                  <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-opacity-80">
-                    <Lottie
-                      animationData={animationData}
-                      loop={false}
-                      autoplay={loading}
-                      style={{ width: "100%", height: "100%" }}
-                    />
-                  </div>
-                )}
+              <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-opacity-50">
+                <Lottie
+                  animationData={animationData}
+                  loop={false}
+                  autoplay={loading}
+                  style={{ width: "100%", height: "100%" }}
+                />
+              </div>
+            )}
 
 
             {/* Error Message */}
@@ -495,21 +526,22 @@ export default function Home() {
               <div>
                 <button
                   type="submit"
-                  disabled={loading}
-                  className="text-white inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50  bg-gradient-to-r from-orange-500 via-pink-500 to-red-600 hover:from-orange-700 hover:to-red-700 hover:via-pink-600 h-10 px-4 py-2 w-full border-0 mt-8"
-                >
-                  {loading ? "Generating..." : "Generate"}
+                  disabled={!canGenerate || loading}
+                  className={`text-white inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-gradient-to-r from-orange-500 via-pink-500 to-red-600 ${!canGenerate ? "opacity-50 cursor-not-allowed" : "hover:from-orange-700 hover:to-red-700 hover:via-pink-600"} h-10 px-4 py-2 w-full border-0 mt-8`}>
+                  {loading ? "Generating..." : canGenerate ? "Generate" : "Limit Reached"}
                 </button>
 
-                {/* Show Lottie animation only when loading */}
-                
+
+
               </div>
             ) : (
               <button
                 type="submit"
-                className="text-white inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50  bg-gradient-to-r from-orange-400 via-pink-500 to-red-600 hover:from-orange-700 hover:to-red-700 hover:via-pink-600 h-10 px-4 py-2 w-full border-0 mt-8"
-              >
-                Generate Something New
+                disabled={!canGenerate}
+                className={`text-white inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50  bg-gradient-to-r from-orange-400 via-pink-500 to-red-600 hover:from-orange-700 hover:to-red-700 hover:via-pink-600 h-10 px-4 py-2 w-full border-0 mt-8" ${!canGenerate ? "opacity-50 cursor-not-allowed" : "hover:from-orange-700 hover:to-red-700 hover:via-pink-600"} h-10 px-4 py-2 w-full border-0 mt-8`}>
+                  {canGenerate ? "  Generate Something New" : "Limit Reached"}
+              
+              
               </button>
             )}
           </form>
