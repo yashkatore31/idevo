@@ -7,6 +7,7 @@ import { MdOutlineContentCopy } from "react-icons/md";
 
 export default function Home() {
   const [role, setRole] = useState("");
+  const [projectType, setProjectType] = useState("");
   const [category1, setCategory1] = useState("");
   const [technology1, setTechnology1] = useState("");
   const [category2, setCategory2] = useState("");
@@ -16,6 +17,7 @@ export default function Home() {
   const [complexityValue, setComplexityValue] = useState<number[]>([0]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [customInput, setCustomInput] = useState("");
   const [result, setResult] = useState<any | null>(null);
 
 
@@ -171,6 +173,7 @@ export default function Home() {
         ...(category3 && technology3 ? [{ category: category3, technology: technology3 }] : []),
       ],
       complexity: complexityLabels[complexityValue[0]],
+      customInput: customInput.trim() || undefined,
     };
 
     try {
@@ -193,18 +196,22 @@ export default function Home() {
   };
 
   return (
-    <div className="mt-10 px-4 sm:px-6 lg:px-8 max-w-screen-lg mx-auto">
-      <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold leading-tight text-center">
-        Create Stunning Project Idea With{" "}
-        <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-cyan-300">
-          Idevo
-        </span>
-      </h1>
+    <div className="m-10 px-4 sm:px-6 lg:px-8 max-w-screen-lg mx-auto">
+      <div className="max-w-3xl mx-auto items-center text-center">
+<h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-tight bg-clip-text text-transparent bg-[length:200%] bg-gradient-to-r from-orange-400 via-pink-500 to-red-600 animate-gradient [text-shadow:_0_2px_8px_rgba(236,_72,_153,_0.5)]">
+  Idevo
+</h1>
 
-      <p className="text-gray-500 mt-5 text-base tracking-tight sm:text-lg lg:text-xl leading text-center">
+      <p className="text-2xl sm:text-3xl font-medium mt-3 text-gray-800">
+     
+        Generate Your Next Project Idea
+      </p> <div className="w-24 h-1  bg-gradient-to-r from-orange-400 via-pink-500 to-red-600 rounded-full mx-auto mt-2 mb-3"></div>
+      <p className="text-gray-600 mt-2 text-sm sm:text-m  leading-relaxed">
         Create advanced developer tools that software engineers would use directly in their workflow.
+        <br className="hidden sm:block" />
         Focus on 2025's most cutting-edge technologies and capabilities.
       </p>
+    </div>
 
       <div className="bg-card border rounded-lg shadow-sm my-6 border-gray-300 py-3 px-3">
         <div className="flex flex-col p-2">
@@ -219,40 +226,60 @@ export default function Home() {
               Select your role to get tailored developer tool recommendations suitable for your specific workflow.
             </p>
 
-            <label htmlFor="dev-role" className="text-sm font-medium leading-none block my-4">
+            <div><label htmlFor="dev-role" className="text-sm font-medium leading-none block my-4">
               Role
             </label>
 
-            <div className="relative">
-              <select
-                id="dev-role"
-                value={role}
-                onChange={(e) => setRole(e.target.value)}
-                className="appearance-none w-full rounded-md border border-gray-300 bg-white px-2 py-2 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-black"
-              >
-                <option value="">Select your role</option>
-                <option value="Frontend Engineer">Frontend Engineer</option>
-                <option value="Backend Engineer">Backend Engineer</option>
-                <option value="Full Stack Engineer">Full Stack Engineer</option>
-                <option value="DevOps Engineer">DevOps Engineer</option>
-                <option value="Data Engineer">Data Engineer</option>
-                <option value="Data Analyst">Data Analyst</option>
-                <option value="Machine Learning Engineer">Machine Learning Engineer</option>
-                <option value="Security Engineer">Security Engineer</option>
-              </select>
-              <div className="pointer-events-none absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth="2"
+              <div className="relative">
+                <select
+                  id="dev-role"
+                  value={role}
+                  onChange={(e) => setRole(e.target.value)}
+                  className="appearance-none w-full rounded-md border border-gray-300 bg-white px-2 py-2 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-black"
                 >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                </svg>
+                  <option value="">Select your role</option>
+                  <option value="Frontend Engineer">Frontend Engineer</option>
+                  <option value="Backend Engineer">Backend Engineer</option>
+                  <option value="Full Stack Engineer">Full Stack Engineer</option>
+                  <option value="DevOps Engineer">DevOps Engineer</option>
+                  <option value="Data Engineer">Data Engineer</option>
+                  <option value="Data Analyst">Data Analyst</option>
+                  <option value="Machine Learning Engineer">Machine Learning Engineer</option>
+                  <option value="Security Engineer">Security Engineer</option>
+                </select>
+                <div className="pointer-events-none absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-4 w-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </div>
+              </div>
+              <div className="mt-6">
+                <label htmlFor="dev-role" className="text-sm font-medium leading-none block my-4">
+                  Project Type
+                </label>
+                <select
+                  value={projectType}
+                  onChange={(e) => setProjectType(e.target.value)}
+                  className="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm"
+                >
+                  <option value="">Select project type</option>
+                  <option value="Developer Tool">Developer Tool</option>
+                  <option value="Web Application">Web Application</option>
+                  <option value="Mobile App">Mobile App</option>
+                  <option value="AI Service">AI Service</option>
+                  <option value="API Service">API Service</option>
+                  <option value="Browser Extension">Browser Extension</option>
+                </select>
               </div>
             </div>
+
 
             {!role ? (
               <div className="bg-card text-center py-6 border mt-6 border-dashed rounded-md text-gray-500 border-gray-400">
@@ -301,6 +328,18 @@ export default function Home() {
                 </div>
               </>
             )}
+            <div className="mt-8">
+              <div className="font-medium text-lg mb-2">Additional Requirements</div>
+              <p className="text-gray-500 tracking-tight text-sm mb-4">
+                Add any specific requirements, constraints, or ideas you'd like to include in your project.
+              </p>
+              <textarea
+                value={customInput}
+                onChange={(e) => setCustomInput(e.target.value)}
+                placeholder="E.g. Must use AI for code generation, should be optimized for mobile, needs to integrate with GitHub..."
+                className="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black min-h-[100px]"
+              />
+            </div>
 
             {/* Error Message */}
             {error && (
@@ -310,42 +349,57 @@ export default function Home() {
             )}
 
             {/* Result Cards */}
-            {/* Result Cards */}
             {result && (
               <div className="mt-8 flex flex-col gap-6">
                 {/* Card 1: Project Idea */}
                 <div className="bg-white border border-gray-300 rounded-lg p-6 shadow-sm relative">
-                  <button
-                    type="button"
-                    onClick={() =>
-                      navigator.clipboard.writeText(`${result.projectIdea?.title}\n\n${result.projectIdea?.description}`)
-                    }
-                    className="absolute top-4 right-4 p-1 text-gray-600 hover:text-gray-900 active:text-gray-700 hover:shadow-md hover:scale-110 active:scale-90 transition-transform duration-200 ease-in-out"
-                    aria-label="Copy project idea"
+                  <div
+                    className="absolute top-2 right-2 flex items-center p-0 select-none"
+                    style={{ maskPosition: "0% 0%" }}
                   >
-                    <MdOutlineContentCopy size={20} />
-                  </button>
-                  <h2 className="text-2xl font-semibold mb-2">{result.projectIdea?.title}</h2>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        navigator.clipboard.writeText(
+                          `${result.projectIdea?.title}\n\n${result.projectIdea?.description}`
+                        )
+                      }
+                      className="text-token-text-secondary hover:bg-token-bg-secondary rounded-lg p-1 m-1 text-gray-600 hover:text-gray-900 active:text-gray-700 hover:shadow-md hover:scale-110 active:scale-90 transition-transform duration-200 ease-in-out"
+                      aria-label="Copy project idea"
+                    >
+                      <span className="flex h-[28px] w-[28px] items-center justify-center">
+                        <MdOutlineContentCopy size={18} />
+                      </span>
+                    </button>
+                  </div>
+                  <h2 className="text-2xl font-semibold text-blue-500 mb-2 mr-5">{result.projectIdea?.title}</h2>
                   <p className="text-gray-700 text-sm sm:text-base">{result.projectIdea?.description}</p>
                 </div>
 
                 {/* Card 2: Implementation Steps */}
                 <div className="bg-white border border-gray-300 rounded-lg p-6 shadow-sm relative">
-                  <button
-                    type="button"
-                    onClick={() =>
-                      navigator.clipboard.writeText(
-                        result.implementationSteps
-                          ?.map((stepObj: any, idx: number) => `${idx + 1}. ${stepObj.step}\n${stepObj.details}`)
-                          .join("\n\n")
-                      )
-                    }
-                    className="absolute top-4 right-4 p-1 text-gray-600 hover:text-gray-900 active:text-gray-700 hover:shadow-md hover:scale-110 active:scale-90 transition-transform duration-200 ease-in-out"
-                    aria-label="Copy implementation steps"
+                  <div
+                    className="absolute top-2 right-2 flex items-center p-0 select-none"
+                    style={{ maskPosition: "0% 0%" }}
                   >
-                    <MdOutlineContentCopy size={20} />
-                  </button>
-                  <h2 className="text-2xl font-semibold mb-4">Implementation Steps</h2>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        navigator.clipboard.writeText(
+                          result.implementationSteps
+                            ?.map((stepObj: any, idx: number) => `${idx + 1}. ${stepObj.step}\n${stepObj.details}`)
+                            .join("\n\n")
+                        )
+                      }
+                      className="text-token-text-secondary hover:bg-token-bg-secondary rounded-lg p-1 text-gray-600 hover:text-gray-900 active:text-gray-700 hover:shadow-md hover:scale-110 active:scale-90 transition-transform duration-200 ease-in-out"
+                      aria-label="Copy implementation steps"
+                    >
+                      <span className="flex h-[28px] w-[28px] items-center justify-center">
+                        <MdOutlineContentCopy size={18} />
+                      </span>
+                    </button>
+                  </div>
+                  <h2 className="text-2xl font-semibold text-blue-500 mb-4 mr-5">Implementation</h2>
                   <ol className="list-decimal list-inside space-y-4 text-gray-700 text-sm sm:text-base">
                     {result.implementationSteps?.map((stepObj: any, idx: number) => (
                       <li key={idx}>
@@ -358,24 +412,32 @@ export default function Home() {
 
                 {/* Card 3: Resume Summary */}
                 <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-md space-y-4 relative">
-                  <button
-                    type="button"
-                    onClick={() =>
-                      navigator.clipboard.writeText(
-                        `${result.resumeSummary?.title}\n\nTechnologies: ${result.resumeSummary?.technologies
-                          ?.split("|")
-                          .join(", ")}\n\n${result.resumeSummary?.points?.join("\n")}`
-                      )
-                    }
-                    className="absolute top-4 right-4 p-3 text-gray-600 hover:text-gray-900 active:text-gray-700 hover:shadow-md hover:scale-110 active:scale-90 transition-transform duration-200 ease-in-out"
-                    aria-label="Copy resume summary"
+                  <div
+                    className="absolute top-2 right-2 flex items-center p-0 select-none"
+                    style={{ maskPosition: "0% 0%" }}
                   >
-                    <MdOutlineContentCopy size={20} />
-                  </button>
-                  <h2 className="text-2xl font-bold text-gray-900">{result.resumeSummary?.title}</h2>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        navigator.clipboard.writeText(
+                          `${result.resumeSummary?.title}\n\nTechnologies: ${result.resumeSummary?.technologies
+                            ?.split("|")
+                            .join(", ")}\n\n${result.resumeSummary?.points?.join("\n")}`
+                        )
+                      }
+                      className="text-token-text-secondary hover:bg-token-bg-secondary rounded-lg p-1 text-gray-600 hover:text-gray-900 active:text-gray-700 hover:shadow-md hover:scale-110 active:scale-90 transition-transform duration-200 ease-in-out"
+                      aria-label="Copy resume summary"
+                    >
+                      <span className="flex h-[28px] w-[28px] items-center justify-center">
+                        <MdOutlineContentCopy size={18} />
+                      </span>
+                    </button>
+                  </div>
+
+                  <h2 className="text-2xl font-bold text-blue-500 mr-5">{result.resumeSummary?.title}</h2>
 
                   {/* Technologies as soft badges */}
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-2 ">
                     {result.resumeSummary?.technologies
                       ?.split("|")
                       .map((tech: string, idx: number) => (
@@ -399,25 +461,40 @@ export default function Home() {
             )}
 
 
+
             {/* Submit Button */}
             {!result ? (
               <button
                 type="submit"
                 disabled={loading}
-                className="text-white inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 h-10 px-4 py-2 w-full border-0 mt-8"
+                className="text-white inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50  bg-gradient-to-r from-orange-500 via-pink-500 to-red-600 hover:from-orange-700 hover:to-red-700 hover:via-pink-600 h-10 px-4 py-2 w-full border-0 mt-8"
               >
                 {loading ? "Generating..." : "Generate"}
               </button>
             ) : (
               <button
                 type="submit"
-                className="text-white inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 h-10 px-4 py-2 w-full border-0 mt-8"
+                className="text-white inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50  bg-gradient-to-r from-orange-400 via-pink-500 to-red-600 hover:from-orange-700 hover:to-red-700 hover:via-pink-600 h-10 px-4 py-2 w-full border-0 mt-8"
               >
                 Generate Something New
               </button>
             )}
           </form>
         </div>
+      </div>
+      <div className="text-center container px-4 mb-3">
+        <p className="text-gray-500 text-xs font-mono tracking-tighter">
+          Made with <span className="text-red-500">❤️</span> by{" "}
+          <a
+            href="https://github.com/yashkatore31"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gray-600 hover:text-gray-900 font-medium"
+          >
+            Yash Katore
+          </a>
+        </p>
+        {/* <p  className="text-gray-400 text-xs font-mono tracking-tighter">Happy Coding...</p> */}
       </div>
     </div>
   );

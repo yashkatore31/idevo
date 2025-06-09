@@ -14,7 +14,7 @@ function extractJSON(text: string) {
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { role, stacks, complexity } = body;
+    const { role, stacks, complexity,customInput} = body;
 
     if (!role || !stacks?.length || !complexity) {
       return NextResponse.json({ message: "Invalid input." }, { status: 400 });
@@ -24,17 +24,23 @@ export async function POST(req: Request) {
       .map((s: any) => `${s.technology} (${s.category})`)
       .join(", ");
 
-    const prompt = `
-You are a top-tier developer in 2025.
-Suggest a modern and innovative project idea that a ${role} can build using:
+  const prompt = `
+You are a highly skilled developer in 2025.
+
+Please suggest a fresh, modern, and creative project idea that a ${role} can build using these technologies:
 ${techStack}.
-The project should be ${complexity} level.
 
-void common ideas like blockchain, decentralized apps, chat apps, learning platforms, Recipe storing portfolio sites or traditional idea.
+The project difficulty should match the ${complexity} level.
+Try to use my custom input: ${customInput}.
 
-Respond in  latest idea but simple language, suitable to understand because native users primary language is not English.
+Strictly avoid all common, overused, or similar ("fellow") ideas, including but not limited to:
+blockchain, decentralized apps, chat apps, learning platforms, recipe managers, portfolio sites, clones of popular apps, or usual personal projects.
 
-Respond ONLY with a JSON object in the following format, without any extra explanation or text:
+Focus on unique, innovative, and practical ideas that stand out from typical examples.
+
+Use simple, clear language so it is easy to understand for people whose first language is not English.
+
+Respond ONLY with a JSON object in the exact format below, with no extra text or explanation:
 
 {
   "projectIdea": {
@@ -53,7 +59,7 @@ Respond ONLY with a JSON object in the following format, without any extra expla
   ],
   "resumeSummary": {
     "title": "Resume Summary",
-    "technologies": "List of technologies used in the project.(eg formate: tech1 | tech2 | tech3.)",
+    "technologies": "List of technologies used in the project.(eg format: tech1 | tech2 | tech3.)",
     "points": [
       "Point 1",
       "Point 2",
@@ -61,6 +67,8 @@ Respond ONLY with a JSON object in the following format, without any extra expla
     ]
   }
 }
+
+Unique request id: ${Math.random().toString(36).slice(2)}
 `;
 
     const model = genAI.getGenerativeModel({
