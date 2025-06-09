@@ -528,7 +528,7 @@ export default function Home() {
                   type="submit"
                   disabled={!canGenerate || loading}
                   className={`text-white inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-gradient-to-r from-orange-500 via-pink-500 to-red-600 ${!canGenerate ? "opacity-50 cursor-not-allowed" : "hover:from-orange-700 hover:to-red-700 hover:via-pink-600"} h-10 px-4 py-2 w-full border-0 mt-8`}>
-                  {loading ? "Generating..." : canGenerate ? "Generate" : "Limit Reached"}
+                  {loading ? "Generating..." : canGenerate ? "Generate" : "Free Tier Limit Reached"}
                 </button>
 
 
@@ -539,7 +539,7 @@ export default function Home() {
                 type="submit"
                 disabled={!canGenerate}
                 className={`text-white inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50  bg-gradient-to-r from-orange-400 via-pink-500 to-red-600 hover:from-orange-700 hover:to-red-700 hover:via-pink-600 h-10 px-4 py-2 w-full border-0 mt-8" ${!canGenerate ? "opacity-50 cursor-not-allowed" : "hover:from-orange-700 hover:to-red-700 hover:via-pink-600"} h-10 px-4 py-2 w-full border-0 mt-8`}>
-                  {canGenerate ? "  Generate Something New" : "Limit Reached"}
+                  {canGenerate ? "  Generate Something New" : "Free Tier Limit Reached"}
               
               
               </button>
