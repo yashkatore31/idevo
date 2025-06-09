@@ -3,7 +3,8 @@
 import { useState } from "react";
 import * as Slider from "@radix-ui/react-slider";
 import { MdOutlineContentCopy } from "react-icons/md";
-
+import Lottie from "lottie-react";
+import animationData from "./confetti.json";
 
 export default function Home() {
   const [role, setRole] = useState("");
@@ -197,21 +198,22 @@ export default function Home() {
 
   return (
     <div className="mb-5 m-10 px-4 sm:px-6 lg:px-8 max-w-screen-lg mx-auto">
+      
       <div className="max-w-3xl mx-auto items-center text-center">
-<h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-tight bg-clip-text text-transparent bg-[length:200%] bg-gradient-to-r from-orange-400 via-pink-500 to-red-600 animate-gradient [text-shadow:_0_2px_8px_rgba(236,_72,_153,_0.5)]">
-  Idevo
-</h1>
+        <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-tight bg-clip-text text-transparent bg-[length:200%] bg-gradient-to-r from-orange-400 via-pink-500 to-red-600 animate-gradient [text-shadow:_0_2px_8px_rgba(236,_72,_153,_0.5)]">
+          Idevo
+        </h1>
 
-      <p className="text-2xl sm:text-3xl font-medium mt-3 text-gray-800">
-     
-        Generate Your Next Project Idea
-      </p> <div className="w-24 h-1  bg-gradient-to-r from-orange-400 via-pink-500 to-red-600 rounded-full mx-auto mt-2 mb-3"></div>
-      <p className="text-gray-600 mt-2 text-sm sm:text-m  leading-relaxed">
-        Create advanced developer tools that software engineers would use directly in their workflow.
-        <br className="hidden sm:block" />
-        Focus on 2025's most cutting-edge technologies and capabilities.
-      </p>
-    </div>
+        <p className="text-2xl sm:text-3xl font-medium mt-3 text-gray-800">
+
+          Generate Your Next Project Idea
+        </p> <div className="w-24 h-1  bg-gradient-to-r from-orange-400 via-pink-500 to-red-600 rounded-full mx-auto mt-2 mb-3"></div>
+        <p className="text-gray-600 mt-2 text-sm sm:text-m  leading-relaxed">
+          Create advanced developer tools that software engineers would use directly in their workflow.
+          <br className="hidden sm:block" />
+          Focus on 2025's most cutting-edge technologies and capabilities.
+        </p>
+      </div>
 
       <div className="bg-card border rounded-lg shadow-sm my-6 border-gray-300 py-3 px-3">
         <div className="flex flex-col p-2">
@@ -226,9 +228,10 @@ export default function Home() {
               Select your role to get tailored developer tool recommendations suitable for your specific workflow.
             </p>
 
-            <div><label htmlFor="dev-role" className="text-sm font-medium leading-none block my-4">
-              Role
-            </label>
+            <div>
+              <label htmlFor="dev-role" className="text-sm font-medium leading-none block my-4">
+                Role
+              </label>
 
               <div className="relative">
                 <select
@@ -260,24 +263,7 @@ export default function Home() {
                   </svg>
                 </div>
               </div>
-              <div className="mt-6">
-                <label htmlFor="dev-role" className="text-sm font-medium leading-none block my-4">
-                  Project Type
-                </label>
-                <select
-                  value={projectType}
-                  onChange={(e) => setProjectType(e.target.value)}
-                  className="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm"
-                >
-                  <option value="">Select project type</option>
-                  <option value="Developer Tool">Developer Tool</option>
-                  <option value="Web Application">Web Application</option>
-                  <option value="Mobile App">Mobile App</option>
-                  <option value="AI Service">AI Service</option>
-                  <option value="API Service">API Service</option>
-                  <option value="Browser Extension">Browser Extension</option>
-                </select>
-              </div>
+
             </div>
 
 
@@ -286,10 +272,41 @@ export default function Home() {
                 <p>Please select your developer role first</p>
               </div>
             ) : (
-              <>
-                {renderTechSelection(1,"Primary Tech Stack", category1, setCategory1, technology1, setTechnology1)}
-                {renderTechSelection(2,"Secondary Tech Stack", category2, setCategory2, technology2, setTechnology2)}
-                {renderTechSelection(3,"Optional Tech Stack", category3, setCategory3, technology3, setTechnology3)}
+              <div>
+                <label htmlFor="dev-project-type" className="text-sm font-medium leading-none block my-4">
+                  Project Type
+                </label>
+                <div className="relative">
+                  <select
+                    id="dev-project-type"
+                    value={projectType}
+                    onChange={(e) => setProjectType(e.target.value)}
+                    className="appearance-none w-full rounded-md border border-gray-300 bg-white px-2 py-2 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                  >
+                    <option value="">Select project type</option>
+                    <option value="Developer Tool">Developer Tool</option>
+                    <option value="Web Application">Web Application</option>
+                    <option value="Mobile App">Mobile App</option>
+                    <option value="AI Service">AI Service</option>
+                    <option value="API Service">API Service</option>
+                    <option value="Browser Extension">Browser Extension</option>
+                  </select>
+                  <div className="pointer-events-none absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-4 w-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </div>
+                </div>
+                {renderTechSelection(1, "Primary Tech Stack", category1, setCategory1, technology1, setTechnology1)}
+                {renderTechSelection(2, "Secondary Tech Stack", category2, setCategory2, technology2, setTechnology2)}
+                {renderTechSelection(3, "Optional Tech Stack", category3, setCategory3, technology3, setTechnology3)}
 
                 <div className="mt-8">
                   <div className="font-medium text-lg mb-2">Project Complexity Level</div>
@@ -326,20 +343,31 @@ export default function Home() {
                     ))}
                   </div>
                 </div>
-              </>
+                <div className="mt-8">
+                  <div className="font-medium text-lg mb-2">Additional Requirements</div>
+                  <p className="text-gray-500 tracking-tight text-sm mb-4">
+                    Add any specific requirements, constraints, or ideas you'd like to include in your project.
+                  </p>
+                  <textarea
+                    value={customInput}
+                    onChange={(e) => setCustomInput(e.target.value)}
+                    placeholder="E.g. Must use AI for code generation, should be optimized for mobile, needs to integrate with GitHub..."
+                    className="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black min-h-[100px]"
+                  />
+                </div>
+              </div>
             )}
-            <div className="mt-8">
-              <div className="font-medium text-lg mb-2">Additional Requirements</div>
-              <p className="text-gray-500 tracking-tight text-sm mb-4">
-                Add any specific requirements, constraints, or ideas you'd like to include in your project.
-              </p>
-              <textarea
-                value={customInput}
-                onChange={(e) => setCustomInput(e.target.value)}
-                placeholder="E.g. Must use AI for code generation, should be optimized for mobile, needs to integrate with GitHub..."
-                className="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black min-h-[100px]"
-              />
-            </div>
+            {loading && (
+                  <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-opacity-80">
+                    <Lottie
+                      animationData={animationData}
+                      loop={false}
+                      autoplay={loading}
+                      style={{ width: "100%", height: "100%" }}
+                    />
+                  </div>
+                )}
+
 
             {/* Error Message */}
             {error && (
@@ -464,13 +492,18 @@ export default function Home() {
 
             {/* Submit Button */}
             {!result ? (
-              <button
-                type="submit"
-                disabled={loading}
-                className="text-white inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50  bg-gradient-to-r from-orange-500 via-pink-500 to-red-600 hover:from-orange-700 hover:to-red-700 hover:via-pink-600 h-10 px-4 py-2 w-full border-0 mt-8"
-              >
-                {loading ? "Generating..." : "Generate"}
-              </button>
+              <div>
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="text-white inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50  bg-gradient-to-r from-orange-500 via-pink-500 to-red-600 hover:from-orange-700 hover:to-red-700 hover:via-pink-600 h-10 px-4 py-2 w-full border-0 mt-8"
+                >
+                  {loading ? "Generating..." : "Generate"}
+                </button>
+
+                {/* Show Lottie animation only when loading */}
+                
+              </div>
             ) : (
               <button
                 type="submit"
