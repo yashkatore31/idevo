@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import * as Slider from "@radix-ui/react-slider";
+import { MdOutlineContentCopy } from "react-icons/md";
+
 
 export default function Home() {
   const [role, setRole] = useState("");
@@ -16,16 +18,24 @@ export default function Home() {
   const [error, setError] = useState("");
   const [result, setResult] = useState<any | null>(null);
 
+
   const categoryTechnologyMap: Record<string, string[]> = {
-    AI: ["TensorFlow", "PyTorch", "LangChain", "OpenAI API"],
-    API: ["GraphQL", "REST", "tRPC", "Postman"],
-    Backend: ["Node.js", "Django", "Spring Boot", "Express"],
-    Frontend: ["React", "Next.js", "Vue", "Svelte"],
-    Database: ["MongoDB", "PostgreSQL", "MySQL", "Supabase"],
-    DevOps: ["Docker", "Kubernetes", "Terraform", "GitHub Actions"],
-    Testing: ["Jest", "Cypress", "Playwright", "Vitest"],
-    Mobile: ["React Native", "Flutter", "Swift", "Kotlin"],
+    AI: ["TensorFlow", "PyTorch", "LangChain", "OpenAI API", "Hugging Face", "Stable Diffusion", "FastAI"],
+    API: ["GraphQL", "REST", "tRPC", "Postman", "gRPC", "OpenAPI", "API Gateway"],
+    Backend: ["Node.js", "Django", "Spring Boot", "Express", "NestJS", "Go (Golang)", "Ruby on Rails", "ASP.NET Core"],
+    Frontend: ["React", "Next.js", "Vue", "Svelte", "Angular", "SolidJS", "Qwik"],
+    Database: ["MongoDB", "PostgreSQL", "MySQL", "Supabase", "Redis", "Cassandra", "CockroachDB", "Neo4j"],
+    DevOps: ["Docker", "Kubernetes", "Terraform", "GitHub Actions", "ArgoCD", "Jenkins", "CircleCI", "Pulumi"],
+    Testing: ["Jest", "Cypress", "Playwright", "Vitest", "Mocha", "Chai", "Testing Library"],
+    Mobile: ["React Native", "Flutter", "Swift", "Kotlin", "Jetpack Compose", "SwiftUI", "Xamarin"],
+    Cloud: ["AWS", "Azure", "Google Cloud", "DigitalOcean", "Vercel", "Netlify", "Cloudflare"],
+    Security: ["OWASP", "Snyk", "Burp Suite", "Wireshark", "Metasploit", "HashiCorp Vault"],
+    DataEngineering: ["Apache Spark", "Kafka", "Airflow", "Flink", "Beam", "DBT"],
+    Blockchain: ["Ethereum", "Solidity", "Polkadot", "Chainlink", "IPFS", "Web3.js"],
+    UXUI: ["Figma", "Adobe XD", "Sketch", "Framer", "InVision"],
+    AIops: ["DataDog", "New Relic", "Prometheus", "Grafana", "ELK Stack"],
   };
+
 
   const selectedCategories = [category1, category2, category3];
   const complexityLabels = ["Beginner", "Intermediate", "Advanced"];
@@ -97,9 +107,8 @@ export default function Home() {
                 value={technology}
                 onChange={(e) => setTechnology(e.target.value)}
                 disabled={!category}
-                className={`appearance-none w-full rounded-md border border-gray-300 bg-white px-2 py-2 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-black ${
-                  !category ? "opacity-70 cursor-not-allowed" : "opacity-100 cursor-auto"
-                }`}
+                className={`appearance-none w-full rounded-md border border-gray-300 bg-white px-2 py-2 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-black ${!category ? "opacity-70 cursor-not-allowed" : "opacity-100 cursor-auto"
+                  }`}
               >
                 <option value="">Select a technology</option>
                 {techOptions.map((tech) => (
@@ -301,16 +310,41 @@ export default function Home() {
             )}
 
             {/* Result Cards */}
+            {/* Result Cards */}
             {result && (
               <div className="mt-8 flex flex-col gap-6">
                 {/* Card 1: Project Idea */}
-                <div className="bg-white border border-gray-300 rounded-lg p-6 shadow-sm">
+                <div className="bg-white border border-gray-300 rounded-lg p-6 shadow-sm relative">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      navigator.clipboard.writeText(`${result.projectIdea?.title}\n\n${result.projectIdea?.description}`)
+                    }
+                    className="absolute top-4 right-4 p-1 text-gray-600 hover:text-gray-900 active:text-gray-700 hover:shadow-md hover:scale-110 active:scale-90 transition-transform duration-200 ease-in-out"
+                    aria-label="Copy project idea"
+                  >
+                    <MdOutlineContentCopy size={20} />
+                  </button>
                   <h2 className="text-2xl font-semibold mb-2">{result.projectIdea?.title}</h2>
                   <p className="text-gray-700 text-sm sm:text-base">{result.projectIdea?.description}</p>
                 </div>
 
                 {/* Card 2: Implementation Steps */}
-                <div className="bg-white border border-gray-300 rounded-lg p-6 shadow-sm">
+                <div className="bg-white border border-gray-300 rounded-lg p-6 shadow-sm relative">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      navigator.clipboard.writeText(
+                        result.implementationSteps
+                          ?.map((stepObj: any, idx: number) => `${idx + 1}. ${stepObj.step}\n${stepObj.details}`)
+                          .join("\n\n")
+                      )
+                    }
+                    className="absolute top-4 right-4 p-1 text-gray-600 hover:text-gray-900 active:text-gray-700 hover:shadow-md hover:scale-110 active:scale-90 transition-transform duration-200 ease-in-out"
+                    aria-label="Copy implementation steps"
+                  >
+                    <MdOutlineContentCopy size={20} />
+                  </button>
                   <h2 className="text-2xl font-semibold mb-4">Implementation Steps</h2>
                   <ol className="list-decimal list-inside space-y-4 text-gray-700 text-sm sm:text-base">
                     {result.implementationSteps?.map((stepObj: any, idx: number) => (
@@ -323,9 +357,39 @@ export default function Home() {
                 </div>
 
                 {/* Card 3: Resume Summary */}
-                <div className="bg-white border border-gray-300 rounded-lg p-6 shadow-sm">
-                  <h2 className="text-2xl font-semibold mb-4">{result.resumeSummary?.title}</h2>
-                  <ul className="list-disc list-inside space-y-2 text-gray-700 text-sm sm:text-base">
+                <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-md space-y-4 relative">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      navigator.clipboard.writeText(
+                        `${result.resumeSummary?.title}\n\nTechnologies: ${result.resumeSummary?.technologies
+                          ?.split("|")
+                          .join(", ")}\n\n${result.resumeSummary?.points?.join("\n")}`
+                      )
+                    }
+                    className="absolute top-4 right-4 p-3 text-gray-600 hover:text-gray-900 active:text-gray-700 hover:shadow-md hover:scale-110 active:scale-90 transition-transform duration-200 ease-in-out"
+                    aria-label="Copy resume summary"
+                  >
+                    <MdOutlineContentCopy size={20} />
+                  </button>
+                  <h2 className="text-2xl font-bold text-gray-900">{result.resumeSummary?.title}</h2>
+
+                  {/* Technologies as soft badges */}
+                  <div className="flex flex-wrap gap-2">
+                    {result.resumeSummary?.technologies
+                      ?.split("|")
+                      .map((tech: string, idx: number) => (
+                        <span
+                          key={idx}
+                          className="bg-gray-50 text-gray-600 text-sm sm:text-xs px-2.5 py-1 rounded-full border border-gray-200"
+                        >
+                          {tech.trim()}
+                        </span>
+                      ))}
+                  </div>
+
+                  {/* Points List */}
+                  <ul className="list-disc list-inside space-y-2 text-gray-700 text-sm sm:text-base pl-2">
                     {result.resumeSummary?.points?.map((point: string, idx: number) => (
                       <li key={idx}>{point}</li>
                     ))}
@@ -333,6 +397,7 @@ export default function Home() {
                 </div>
               </div>
             )}
+
 
             {/* Submit Button */}
             {!result ? (
