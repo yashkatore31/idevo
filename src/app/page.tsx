@@ -161,70 +161,71 @@ export default function Home() {
   };
 
   // Submit handler with validation + fetch call
- const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  setError("");
-  setResult(null);
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setResult(null);
 
-  // Check daily limit before validation and API call
-  if (!canGenerate) {
-    setError("You have reached the daily limit of 3 generations.");
-    return;
-  }
+    // Check daily limit before validation and API call
+    if (!canGenerate) {
+      setError("You have reached the daily limit of 3 generations.");
+      return;
+    }
 
-  // Validation (your existing)
-  if (!role) {
-    setError("Please select your role.");
-    return;
-  }
-  if (!category1 || !technology1 || !category2 || !technology2) {
-    setError("Please select at least two categories and their technologies.");
-    return;
-  }
-  if (
-    category1 === category2 ||
-    (category3 && (category3 === category1 || category3 === category2))
-  ) {
-    setError("Please select different categories.");
-    return;
-  }
+    // Validation (your existing)
+    if (!role) {
+      setError("Please select your role.");
+      return;
+    }
+    if (!category1 || !technology1 || !category2 || !technology2) {
+      setError("Please select at least two categories and their technologies.");
+      return;
+    }
+    if (
+      category1 === category2 ||
+      (category3 && (category3 === category1 || category3 === category2))
+    ) {
+      setError("Please select different categories.");
+      return;
+    }
 
-  setLoading(true);
+    setLoading(true);
 
-  const payload = {
-    role,
-    stacks: [
-      { category: category1, technology: technology1 },
-      { category: category2, technology: technology2 },
-      ...(category3 && technology3 ? [{ category: category3, technology: technology3 }] : []),
-    ],
-    complexity: complexityLabels[complexityValue[0]],
-    customInput: customInput.trim() || undefined,
+    const payload = {
+      role,
+      stacks: [
+        { category: category1, technology: technology1 },
+        { category: category2, technology: technology2 },
+        ...(category3 && technology3 ? [{ category: category3, technology: technology3 }] : []),
+      ],
+      complexity: complexityLabels[complexityValue[0]],
+      customInput: customInput.trim() || undefined,
+      projectType,
+    };
+
+    try {
+      const res = await fetch("/api/generative-tool/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) throw new Error(`API error: ${res.statusText}`);
+
+      const data = await res.json();
+
+      setResult(data);
+
+      // On successful generation, increment usage count and store in localStorage
+      const newCount = usageCount + 1;
+      setUsageCount(newCount);
+      localStorage.setItem("usageCount", newCount.toString());
+    } catch (err: any) {
+      setError(err.message || "Something went wrong during generation.");
+    } finally {
+      setLoading(false);
+    }
   };
-
-  try {
-    const res = await fetch("/api/generative-tool/", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
-
-    if (!res.ok) throw new Error(`API error: ${res.statusText}`);
-
-    const data = await res.json();
-
-    setResult(data);
-
-    // On successful generation, increment usage count and store in localStorage
-    const newCount = usageCount + 1;
-    setUsageCount(newCount);
-    localStorage.setItem("usageCount", newCount.toString());
-  } catch (err: any) {
-    setError(err.message || "Something went wrong during generation.");
-  } finally {
-    setLoading(false);
-  }
-};
 
 
   return (
@@ -539,16 +540,16 @@ export default function Home() {
                 type="submit"
                 disabled={!canGenerate}
                 className={`text-white inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50  bg-gradient-to-r from-orange-400 via-pink-500 to-red-600 hover:from-orange-700 hover:to-red-700 hover:via-pink-600 h-10 px-4 py-2 w-full border-0 mt-8" ${!canGenerate ? "opacity-50 cursor-not-allowed" : "hover:from-orange-700 hover:to-red-700 hover:via-pink-600"} h-10 px-4 py-2 w-full border-0 mt-8`}>
-                  {canGenerate ? "  Generate Something New" : "Free Tier Limit Reached"}
-              
-              
+                {canGenerate ? "  Generate Something New" : "Free Tier Limit Reached"}
+
+
               </button>
             )}
           </form>
         </div>
       </div>
       <div className="text-center container px-4 mb-3">
-        <p className="text-gray-500 text-xs font-mono tracking-tighter">
+        <p className="text-gray-500 text-sm font-mono tracking-tighter">
           Made with <span className="text-red-500">❤️</span> by{" "}
           <a
             href="https://github.com/yashkatore31"
@@ -559,7 +560,10 @@ export default function Home() {
             Yash Katore
           </a>
         </p>
-        {/* <p  className="text-gray-400 text-xs font-mono tracking-tighter">Happy Coding...</p> */}
+        <div className="flex items-center justify-center space-x-2 text-gray-400 text-xs font-mono tracking-tighter py-1">
+          <p>Powered by Google Gemini</p>
+        </div>
+
       </div>
     </div>
   );

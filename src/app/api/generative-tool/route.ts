@@ -14,7 +14,7 @@ function extractJSON(text: string) {
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { role, stacks, complexity,customInput} = body;
+    const { role, stacks, complexity,customInput,projectType} = body;
 
     if (!role || !stacks?.length || !complexity) {
       return NextResponse.json({ message: "Invalid input." }, { status: 400 });
@@ -27,14 +27,14 @@ export async function POST(req: Request) {
   const prompt = `
 You are a highly skilled developer in 2025.
 
-Please suggest a fresh, modern, and creative project idea that a ${role} can build using these technologies:
-${techStack}.
+Please suggest a fresh, modern, and creative project idea that a ${role} can build ${projectType} using these technologies:
+${techStack}
 
 The project difficulty should match the ${complexity} level.
 Try to use my custom input: ${customInput}.
 
 Strictly avoid all common, overused, or similar ("fellow") ideas, including but not limited to:
-blockchain, decentralized apps, chat apps, learning platforms, recipe managers, portfolio sites, clones of popular apps, or usual personal projects.
+blockchain, decentralized apps, chat apps, learning platforms, recipe managers, portfolio sites, clones of popular apps, or usual personal projects and city exploration.
 
 Focus on unique, innovative, and practical ideas that stand out from typical examples.
 
@@ -71,19 +71,13 @@ Respond ONLY with a JSON object in the exact format below, with no extra text or
 Unique request id: ${Math.random().toString(36).slice(2)}
 `;
 
-    const model = genAI.getGenerativeModel({
-      model: "gemini-1.5-flash",
-      // model: "gemini-1.5-pro",
-      // model: "gemini-1.5-pro-latest",
-      // model: "gemini-1.5-pro-visioned",
-      // model: "gemini-1.5-pro-visioned-latest",
-      generationConfig: {
-        temperature: 1.5,
-        topK: 80,
-        topP: 0.95,
-        maxOutputTokens: 1024,
-      },
-    });
+   const model = genAI.getGenerativeModel({
+  model: "gemini-1.5-flash",
+  generationConfig: {
+    temperature: 0.85,
+    maxOutputTokens: 1024,
+  },
+});
 
     const result = await model.generateContent(prompt);
     console.log("AI request sent with prompt:", prompt);
