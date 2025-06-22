@@ -40,7 +40,7 @@ export default function Home() {
   }, []);
 
 
-  const canGenerate = usageCount < 2;
+  const canGenerate = usageCount < 20;
   const categoryTechnologyMap: Record<string, string[]> = {
     AI: ["TensorFlow", "PyTorch", "LangChain", "OpenAI API", "Hugging Face", "Stable Diffusion", "FastAI"],
     API: ["Gemini API", "GraphQL", "REST", "tRPC", "Postman", "gRPC", "OpenAPI", "API Gateway"],
@@ -470,8 +470,10 @@ export default function Home() {
                   </ol>
                 </div>
 
+                {/* --------------------------------------------------------------------- */}
+
                 {/* Card 3: Resume Summary */}
-                <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-md space-y-4 relative">
+                <div className="bg-white border border-gray-300 rounded-lg p-6 shadow-sm space-y-4 relative">
                   <div
                     className="absolute top-2 right-2 flex items-center p-0 select-none"
                     style={{ maskPosition: "0% 0%" }}
@@ -517,8 +519,48 @@ export default function Home() {
                     ))}
                   </ul>
                 </div>
+
+
+                {/* --------------------------------------------------------------------- */}
+
+                {/* Card:  4Technology Stack */}
+                <div className="bg-white border border-gray-300 rounded-lg p-6 shadow-sm relative">
+                  <div
+                    className="absolute top-2 right-2 flex items-center p-0 select-none"
+                    style={{ maskPosition: "0% 0%" }}
+                  >
+                    <button
+                      type="button"
+                      onClick={() =>
+                        navigator.clipboard.writeText(
+                          result.techstack?.techstack
+                            ?.map((item: any) => `${item[0]}: ${item[1]}`)
+                            .join("\n")
+                        )
+                      }
+                      className="text-token-text-secondary hover:bg-token-bg-secondary rounded-lg p-1 text-gray-600 hover:text-gray-900 active:text-gray-700 hover:shadow-md hover:scale-110 active:scale-90 transition-transform duration-200 ease-in-out"
+                      aria-label="Copy tech stack"
+                    >
+                      <span className="flex h-[28px] w-[28px] items-center justify-center">
+                        <MdOutlineContentCopy size={18} />
+                      </span>
+                    </button>
+                  </div>
+                  <h2 className="text-2xl font-semibold text-pink-500 mb-4 mr-5">
+                    {result.techstack?.title || "Technology Stack"}
+                  </h2>
+                  <ul className="list-disc list-inside space-y-2 text-gray-700 text-sm sm:text-base pl-2">
+                    {result.techstack?.techstack?.map((item: any, idx: number) => (
+                      <li key={idx}>
+                        <strong> {item[0]} :</strong> {item[1]}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
               </div>
             )}
+
 
 
 

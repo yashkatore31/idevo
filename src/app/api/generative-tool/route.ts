@@ -14,7 +14,7 @@ function extractJSON(text: string) {
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { role, stacks, complexity,customInput,projectType} = body;
+    const { role, stacks, complexity, customInput, projectType } = body;
 
     if (!role || !stacks?.length || !complexity) {
       return NextResponse.json({ message: "Invalid input." }, { status: 400 });
@@ -24,23 +24,23 @@ export async function POST(req: Request) {
       .map((s: any) => `${s.technology} (${s.category})`)
       .join(", ");
 
-  const prompt = `
-You are a highly skilled developer in 2025.
+    const prompt = `
+You are an expert-level software engineer living in the year 2025.
 
-Please suggest a fresh, modern, and creative project idea that a ${role} can build ${projectType} using these technologies:
+Recommend a completely original, up-to-date, and inventive project idea tailored for a ${role} to create ${projectType} using this technology stack:
 ${techStack}
 
-The project difficulty should match the ${complexity} level.
-Try to use my custom input: ${customInput}.
+The project should align with the ${complexity} skill level.
+Also, consider the following input while generating the idea: ${customInput}.
 
-Strictly avoid all common, overused, or similar ("fellow") ideas, including but not limited to:
-blockchain, decentralized apps, chat apps, learning platforms, recipe managers, portfolio sites, clones of popular apps, or usual personal projects and city exploration.
+Strictly do NOT include any overdone or cliché project ideas, including:
+blockchain solutions, dApps, chat applications, learning/course portals, recipe tools, personal portfolios, popular app clones, or city/travel explorers.
 
-Focus on unique, innovative, and practical ideas that stand out from typical examples.
+Aim for a novel, standout, and applicable solution—something that clearly breaks away from the ordinary.
 
-Use simple, clear language so it is easy to understand for people whose first language is not English.
+Keep the wording straightforward and understandable to non-native English speakers.
 
-Respond ONLY with a JSON object in the exact format below, with no extra text or explanation:
+Return ONLY a JSON object with the exact format below—no surrounding text, headings, or markdown:
 
 {
   "projectIdea": {
@@ -57,6 +57,13 @@ Respond ONLY with a JSON object in the exact format below, with no extra text or
       "details": "Details for step 2."
     }
   ],
+  "techstack": {
+    "title": "",
+    "techstack": needs to be cover all possible stacks and libraries can be used [
+      "name",
+      "usage"
+    ]
+  },
   "resumeSummary": {
     "title": "Resume Summary",
     "technologies": "List of technologies used in the project.(eg format: tech1 | tech2 | tech3.)",
@@ -71,13 +78,13 @@ Respond ONLY with a JSON object in the exact format below, with no extra text or
 Unique request id: ${Math.random().toString(36).slice(2)}
 `;
 
-   const model = genAI.getGenerativeModel({
-  model: "gemini-1.5-flash",
-  generationConfig: {
-    temperature: 0.85,
-    maxOutputTokens: 1024,
-  },
-});
+    const model = genAI.getGenerativeModel({
+      model: "gemini-1.5-flash",
+      generationConfig: {
+        temperature: 0.85,
+        maxOutputTokens: 1024,
+      },
+    });
 
     const result = await model.generateContent(prompt);
     console.log("AI request sent with prompt:", prompt);
