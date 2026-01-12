@@ -40,119 +40,217 @@ export default function Home() {
   }, []);
 
   const canGenerate = usageCount < 20;
-  const categoryTechnologyMap: Record<string, string[]> = {
-    AI: [
-      "TensorFlow",
-      "PyTorch",
-      "LangChain",
-      "OpenAI API",
-      "Hugging Face",
-      "Stable Diffusion",
-      "FastAI",
-    ],
-    API: [
-      "Gemini API",
-      "GraphQL",
-      "REST",
-      "tRPC",
-      "Postman",
-      "gRPC",
-      "OpenAPI",
-      "API Gateway",
-    ],
-    Backend: [
-      "Node.js",
-      "Django",
-      "Spring Boot",
-      "Express",
-      "NestJS",
-      "Go (Golang)",
-      "Ruby on Rails",
-      "ASP.NET Core",
-    ],
-    Frontend: [
-      "React",
-      "Next.js",
-      "Vue",
-      "Svelte",
-      "Angular",
-      "SolidJS",
-      "Qwik",
-    ],
-    Database: [
-      "MongoDB",
-      "PostgreSQL",
-      "MySQL",
-      "Supabase",
-      "Redis",
-      "Cassandra",
-      "CockroachDB",
-      "Neo4j",
-    ],
-    DevOps: [
-      "Docker",
-      "Kubernetes",
-      "Terraform",
-      "GitHub Actions",
-      "ArgoCD",
-      "Jenkins",
-      "CircleCI",
-      "Pulumi",
-    ],
-    Testing: [
-      "Jest",
-      "Cypress",
-      "Playwright",
-      "Vitest",
-      "Mocha",
-      "Chai",
-      "Testing Library",
-    ],
-    Mobile: [
-      "React Native",
-      "Flutter",
-      "Swift",
-      "Kotlin",
-      "Jetpack Compose",
-      "SwiftUI",
-      "Xamarin",
-    ],
-    Cloud: [
-      "AWS",
-      "Azure",
-      "Google Cloud",
-      "DigitalOcean",
-      "Vercel",
-      "Netlify",
-      "Cloudflare",
-    ],
-    Security: [
-      "OWASP",
-      "Snyk",
-      "Burp Suite",
-      "Wireshark",
-      "Metasploit",
-      "HashiCorp Vault",
-    ],
-    DataEngineering: [
-      "Apache Spark",
-      "Kafka",
-      "Airflow",
-      "Flink",
-      "Beam",
-      "DBT",
-    ],
-    Blockchain: [
-      "Ethereum",
-      "Solidity",
-      "Polkadot",
-      "Chainlink",
-      "IPFS",
-      "Web3",
-    ],
-    UXUI: ["Figma", "Adobe XD", "Sketch", "Framer", "InVision"],
-    AIops: ["DataDog", "New Relic", "Prometheus", "Grafana", "ELK Stack"],
-  };
+ const categoryTechnologyMap: Record<string, string[]> = {
+  // --- CORE WEB STACK ---
+  Frontend: [
+    "React",
+    "Next.js (App Router)",
+    "TypeScript",
+    "Tailwind CSS",
+    "Shadcn/UI",
+    "Vue.js",
+    "Nuxt",
+    "Svelte/SvelteKit",
+    "Angular",
+    "HTML5/CSS3",
+    "Redux Toolkit",
+    "Zustand",
+    "TanStack Query",
+    "Framer Motion",
+  ],
+  Backend: [
+    "Node.js",
+    "Express.js",
+    "NestJS",
+    "Hono",
+    "Python",
+    "Django",
+    "FastAPI",
+    "Java",
+    "Spring Boot",
+    "Go (Golang)",
+    "Rust",
+    "C# (.NET Core)",
+    "PHP (Laravel)",
+    "Ruby on Rails",
+    "GraphQL (Apollo)",
+    "tRPC",
+    "Serverless Functions",
+  ],
+  Database: [
+    "PostgreSQL",
+    "Neon (Serverless PG)",
+    "MySQL",
+    "MongoDB",
+    "Supabase",
+    "Redis",
+    "Drizzle ORM",
+    "Prisma ORM",
+    "TypeORM",
+    "Hibernate",
+    "Cassandra",
+    "DynamoDB",
+    "Firestore",
+    "CockroachDB",
+    "Vector DB (Pinecone/Weaviate)",
+  ],
+
+  // --- INFRASTRUCTURE & OPS ---
+  DevOps: [
+    "Docker",
+    "Kubernetes",
+    "Terraform",
+    "Ansible",
+    "GitHub Actions",
+    "GitLab CI/CD",
+    "Jenkins",
+    "CircleCI",
+    "ArgoCD",
+    "Prometheus",
+    "Grafana",
+    "ELK Stack",
+    "Nginx",
+    "Linux Administration",
+  ],
+  Cloud: [
+    "AWS (EC2, Lambda, S3)",
+    "Vercel",
+    "Google Cloud Platform",
+    "Microsoft Azure",
+    "Cloudflare (Workers/Pages)",
+    "Netlify",
+    "DigitalOcean",
+    "Heroku",
+    "Railway",
+    "Coolify",
+  ],
+  Security: [
+    "NextAuth.js (Auth.js)",
+    "Clerk",
+    "OAuth 2.0 / OIDC",
+    "JWT",
+    "OWASP ZAP",
+    "Burp Suite",
+    "Snyk",
+    "SonarQube",
+    "Metasploit",
+    "Wireshark",
+    "Kali Linux",
+    "HashiCorp Vault",
+    "Penetration Testing",
+  ],
+
+  // --- DATA & AI ---
+  AI_ML: [
+    "Python",
+    "TensorFlow",
+    "PyTorch",
+    "LangChain",
+    "OpenAI API",
+    "Gemini API",
+    "Hugging Face Transformers",
+    "LlamaIndex",
+    "Scikit-learn",
+    "Pandas",
+    "NumPy",
+    "Jupyter Notebooks",
+    "Stable Diffusion",
+    "Computer Vision (OpenCV)",
+  ],
+  DataEngineering: [
+    "Apache Spark",
+    "Apache Kafka",
+    "Apache Airflow",
+    "Hadoop",
+    "Databricks",
+    "Snowflake",
+    "BigQuery",
+    "Redshift",
+    "dbt (Data Build Tool)",
+    "Tableau",
+    "PowerBI",
+    "ETL Pipelines",
+  ],
+
+  // --- MOBILE & GAME ---
+  Mobile: [
+    "React Native",
+    "Expo",
+    "Flutter",
+    "Dart",
+    "Swift (iOS)",
+    "SwiftUI",
+    "Kotlin (Android)",
+    "Jetpack Compose",
+    "Objective-C",
+    "Ionic",
+    "Capacitor",
+  ],
+  GameDev: [
+    "Unity",
+    "C#",
+    "Unreal Engine",
+    "C++",
+    "Godot",
+    "GDScript",
+    "Blender",
+    "WebGL",
+    "Three.js",
+    "React Three Fiber",
+  ],
+
+  // --- SPECIALIZED ---
+  Blockchain: [
+    "Solidity",
+    "Ethereum",
+    "Smart Contracts",
+    "Web3.js",
+    "Ethers.js",
+    "Hardhat",
+    "Foundry",
+    "Rust (Solana)",
+    "IPFS",
+    "Polkadot",
+  ],
+  Testing: [
+    "Jest",
+    "Vitest",
+    "Cypress",
+    "Playwright",
+    "Selenium",
+    "Mocha",
+    "Chai",
+    "JUnit",
+    "Mockito",
+    "Postman",
+    "K6 (Load Testing)",
+    "Storybook",
+  ],
+  
+  // --- MANAGEMENT & DESIGN ---
+  Design: [
+    "Figma",
+    "Adobe XD",
+    "Sketch",
+    "Adobe Photoshop",
+    "Adobe Illustrator",
+    "Framer",
+    "Protopie",
+    "Canva",
+  ],
+  Management: [
+    "Jira",
+    "Linear",
+    "Trello",
+    "Notion",
+    "Asana",
+    "Slack",
+    "Microsoft Teams",
+    "Agile/Scrum",
+    "Miro",
+    "Confluence",
+  ],
+};
 
   const selectedCategories = [category1, category2, category3];
   const complexityLabels = ["Beginner", "Intermediate", "Advanced"];
@@ -390,7 +488,6 @@ export default function Home() {
                   onChange={(e) => setRole(e.target.value)}
                   className="appearance-none w-full rounded-md border border-gray-300 bg-white px-2 py-2 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-black"
                 >
-                  <option value="">Select your role</option>
                   <option value="Frontend Engineer">Frontend Engineer</option>
                   <option value="Backend Engineer">Backend Engineer</option>
                   <option value="Full Stack Engineer">
@@ -403,6 +500,55 @@ export default function Home() {
                     Machine Learning Engineer
                   </option>
                   <option value="Security Engineer">Security Engineer</option>
+
+                  <option value="Mobile Developer">Mobile Developer</option>
+                  <option value="iOS Developer">iOS Developer</option>
+                  <option value="Android Developer">Android Developer</option>
+                  <option value="React Native Developer">
+                    React Native Developer
+                  </option>
+                  <option value="Flutter Developer">Flutter Developer</option>
+
+                  <option value="QA Engineer">QA Engineer</option>
+                  <option value="SDET">
+                    SDET (Software Development Engineer in Test)
+                  </option>
+                  <option value="Automation Tester">Automation Tester</option>
+
+                  <option value="UI/UX Designer">UI/UX Designer</option>
+                  <option value="Product Designer">Product Designer</option>
+                  <option value="Product Manager">Product Manager</option>
+                  <option value="Project Manager">Project Manager</option>
+                  <option value="Scrum Master">Scrum Master</option>
+
+                  <option value="Cloud Architect">Cloud Architect</option>
+                  <option value="Site Reliability Engineer">
+                    Site Reliability Engineer (SRE)
+                  </option>
+                  <option value="System Administrator">
+                    System Administrator
+                  </option>
+                  <option value="Network Engineer">Network Engineer</option>
+
+                  <option value="Data Scientist">Data Scientist</option>
+                  <option value="Blockchain Developer">
+                    Blockchain Developer
+                  </option>
+                  <option value="Game Developer">Game Developer</option>
+                  <option value="Embedded Systems Engineer">
+                    Embedded Systems Engineer
+                  </option>
+                  <option value="Sales Engineer">Sales Engineer</option>
+                  <option value="Solutions Architect">
+                    Solutions Architect
+                  </option>
+                  <option value="Technical Writer">Technical Writer</option>
+
+                  <option value="Tech Lead">Tech Lead</option>
+                  <option value="Engineering Manager">
+                    Engineering Manager
+                  </option>
+                  <option value="CTO">Chief Technology Officer (CTO)</option>
                 </select>
                 <div className="pointer-events-none absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
                   <svg
@@ -443,12 +589,40 @@ export default function Home() {
                     className="appearance-none w-full rounded-md border border-gray-300 bg-white px-2 py-2 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-black"
                   >
                     <option value="">Select project type</option>
-                    <option value="Developer Tool">Developer Tool</option>
+
                     <option value="Web Application">Web Application</option>
+                    <option value="SaaS Platform">SaaS Platform</option>
+                    <option value="E-commerce Store">E-commerce Store</option>
+                    <option value="Social Media Platform">
+                      Social Media Platform
+                    </option>
+                    <option value="CMS">Content Management System (CMS)</option>
+                    <option value="Portfolio Website">
+                      Portfolio / Personal Website
+                    </option>
+
                     <option value="Mobile App">Mobile App</option>
-                    <option value="AI Service">AI Service</option>
-                    <option value="API Service">API Service</option>
+                    <option value="Desktop Application">
+                      Desktop Application
+                    </option>
                     <option value="Browser Extension">Browser Extension</option>
+                    <option value="Game">Game</option>
+
+                    <option value="Developer Tool">Developer Tool</option>
+                    <option value="API Service">API Service</option>
+                    <option value="CLI Tool">CLI Tool</option>
+                    <option value="Open Source Library">
+                      Open Source Library
+                    </option>
+
+                    <option value="AI Service">AI Service / LLM Wrapper</option>
+                    <option value="Blockchain/Web3">
+                      Blockchain / Web3 dApp
+                    </option>
+                    <option value="IoT Application">IoT Application</option>
+                    <option value="Data Visualization">
+                      Data Visualization
+                    </option>
                   </select>
                   <div className="pointer-events-none absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
                     <svg

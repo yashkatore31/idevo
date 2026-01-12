@@ -99,7 +99,7 @@ Unique request id: ${Math.random().toString(36).slice(2)}
     console.log("=== Prompt sent to Gemini ===", prompt);
 
     const model = genAI.getGenerativeModel({
-      model: "gemini-2.5-flash",
+      model: "gemini-2.0-flash",
       generationConfig: {
         temperature: 0.85,
         maxOutputTokens: 4096,
