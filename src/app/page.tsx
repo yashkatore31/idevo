@@ -39,25 +39,120 @@ export default function Home() {
     }
   }, []);
 
-
   const canGenerate = usageCount < 20;
   const categoryTechnologyMap: Record<string, string[]> = {
-    AI: ["TensorFlow", "PyTorch", "LangChain", "OpenAI API", "Hugging Face", "Stable Diffusion", "FastAI"],
-    API: ["Gemini API", "GraphQL", "REST", "tRPC", "Postman", "gRPC", "OpenAPI", "API Gateway"],
-    Backend: ["Node.js", "Django", "Spring Boot", "Express", "NestJS", "Go (Golang)", "Ruby on Rails", "ASP.NET Core"],
-    Frontend: ["React", "Next.js", "Vue", "Svelte", "Angular", "SolidJS", "Qwik"],
-    Database: ["MongoDB", "PostgreSQL", "MySQL", "Supabase", "Redis", "Cassandra", "CockroachDB", "Neo4j"],
-    DevOps: ["Docker", "Kubernetes", "Terraform", "GitHub Actions", "ArgoCD", "Jenkins", "CircleCI", "Pulumi"],
-    Testing: ["Jest", "Cypress", "Playwright", "Vitest", "Mocha", "Chai", "Testing Library"],
-    Mobile: ["React Native", "Flutter", "Swift", "Kotlin", "Jetpack Compose", "SwiftUI", "Xamarin"],
-    Cloud: ["AWS", "Azure", "Google Cloud", "DigitalOcean", "Vercel", "Netlify", "Cloudflare"],
-    Security: ["OWASP", "Snyk", "Burp Suite", "Wireshark", "Metasploit", "HashiCorp Vault"],
-    DataEngineering: ["Apache Spark", "Kafka", "Airflow", "Flink", "Beam", "DBT"],
-    Blockchain: ["Ethereum", "Solidity", "Polkadot", "Chainlink", "IPFS", "Web3"],
+    AI: [
+      "TensorFlow",
+      "PyTorch",
+      "LangChain",
+      "OpenAI API",
+      "Hugging Face",
+      "Stable Diffusion",
+      "FastAI",
+    ],
+    API: [
+      "Gemini API",
+      "GraphQL",
+      "REST",
+      "tRPC",
+      "Postman",
+      "gRPC",
+      "OpenAPI",
+      "API Gateway",
+    ],
+    Backend: [
+      "Node.js",
+      "Django",
+      "Spring Boot",
+      "Express",
+      "NestJS",
+      "Go (Golang)",
+      "Ruby on Rails",
+      "ASP.NET Core",
+    ],
+    Frontend: [
+      "React",
+      "Next.js",
+      "Vue",
+      "Svelte",
+      "Angular",
+      "SolidJS",
+      "Qwik",
+    ],
+    Database: [
+      "MongoDB",
+      "PostgreSQL",
+      "MySQL",
+      "Supabase",
+      "Redis",
+      "Cassandra",
+      "CockroachDB",
+      "Neo4j",
+    ],
+    DevOps: [
+      "Docker",
+      "Kubernetes",
+      "Terraform",
+      "GitHub Actions",
+      "ArgoCD",
+      "Jenkins",
+      "CircleCI",
+      "Pulumi",
+    ],
+    Testing: [
+      "Jest",
+      "Cypress",
+      "Playwright",
+      "Vitest",
+      "Mocha",
+      "Chai",
+      "Testing Library",
+    ],
+    Mobile: [
+      "React Native",
+      "Flutter",
+      "Swift",
+      "Kotlin",
+      "Jetpack Compose",
+      "SwiftUI",
+      "Xamarin",
+    ],
+    Cloud: [
+      "AWS",
+      "Azure",
+      "Google Cloud",
+      "DigitalOcean",
+      "Vercel",
+      "Netlify",
+      "Cloudflare",
+    ],
+    Security: [
+      "OWASP",
+      "Snyk",
+      "Burp Suite",
+      "Wireshark",
+      "Metasploit",
+      "HashiCorp Vault",
+    ],
+    DataEngineering: [
+      "Apache Spark",
+      "Kafka",
+      "Airflow",
+      "Flink",
+      "Beam",
+      "DBT",
+    ],
+    Blockchain: [
+      "Ethereum",
+      "Solidity",
+      "Polkadot",
+      "Chainlink",
+      "IPFS",
+      "Web3",
+    ],
     UXUI: ["Figma", "Adobe XD", "Sketch", "Framer", "InVision"],
     AIops: ["DataDog", "New Relic", "Prometheus", "Grafana", "ELK Stack"],
   };
-
 
   const selectedCategories = [category1, category2, category3];
   const complexityLabels = ["Beginner", "Intermediate", "Advanced"];
@@ -75,9 +170,7 @@ export default function Home() {
 
     return (
       <div key={number} className="mb-6">
-        <div className="font-medium text-lg mt-5">
-          {catlabel}
-        </div>
+        <div className="font-medium text-lg mt-5">{catlabel}</div>
         <p className="text-gray-500 tracking-tight text-sm py-3">
           Select the technologies you have hands-on experience with.
         </p>
@@ -85,7 +178,8 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
           {/* Category Selector */}
           <div>
-            <label className="text-sm font-medium block my-3">Category</label><div className="relative">
+            <label className="text-sm font-medium block my-3">Category</label>
+            <div className="relative">
               <select
                 value={category}
                 onChange={(e) => {
@@ -100,7 +194,11 @@ export default function Home() {
                     (selectedCat, i) => selectedCat === cat && i !== number - 1
                   );
                   return (
-                    <option key={cat} value={cat} disabled={isSelectedElsewhere}>
+                    <option
+                      key={cat}
+                      value={cat}
+                      disabled={isSelectedElsewhere}
+                    >
                       {cat}
                     </option>
                   );
@@ -115,7 +213,11 @@ export default function Home() {
                   stroke="currentColor"
                   strokeWidth="2"
                 >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M19 9l-7 7-7-7"
+                  />
                 </svg>
               </div>
             </div>
@@ -129,8 +231,11 @@ export default function Home() {
                 value={technology}
                 onChange={(e) => setTechnology(e.target.value)}
                 disabled={!category}
-                className={`appearance-none w-full rounded-md border border-gray-300 bg-white px-2 py-2 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-black ${!category ? "opacity-70 cursor-not-allowed" : "opacity-100 cursor-auto"
-                  }`}
+                className={`appearance-none w-full rounded-md border border-gray-300 bg-white px-2 py-2 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-black ${
+                  !category
+                    ? "opacity-70 cursor-not-allowed"
+                    : "opacity-100 cursor-auto"
+                }`}
               >
                 <option value="">Select a technology</option>
                 {techOptions.map((tech) => (
@@ -148,14 +253,21 @@ export default function Home() {
                   stroke="currentColor"
                   strokeWidth="2"
                 >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M19 9l-7 7-7-7"
+                  />
                 </svg>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="shrink-0 bg-border h-[1px] w-full my-4" role="none"></div>
+        <div
+          className="shrink-0 bg-border h-[1px] w-full my-4"
+          role="none"
+        ></div>
       </div>
     );
   };
@@ -196,7 +308,9 @@ export default function Home() {
       stacks: [
         { category: category1, technology: technology1 },
         { category: category2, technology: technology2 },
-        ...(category3 && technology3 ? [{ category: category3, technology: technology3 }] : []),
+        ...(category3 && technology3
+          ? [{ category: category3, technology: technology3 }]
+          : []),
       ],
       complexity: complexityLabels[complexityValue[0]],
       customInput: customInput.trim() || undefined,
@@ -227,21 +341,19 @@ export default function Home() {
     }
   };
 
-
   return (
     <div className="mb-5 m-10 px-4 sm:px-6 lg:px-8 max-w-screen-lg mx-auto">
-
       <div className="max-w-3xl mx-auto items-center text-center">
         <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-tight bg-clip-text text-transparent bg-[length:200%] bg-gradient-to-r from-orange-400 via-pink-500 to-red-600 animate-gradient [text-shadow:_0_2px_8px_rgba(236,_72,_153,_0.5)]">
           Idevo
         </h1>
-
         <p className="text-2xl sm:text-3xl font-medium mt-3 text-gray-800">
-
           Generate Your Next Project Idea
-        </p> <div className="w-24 h-1  bg-gradient-to-r from-orange-400 via-pink-500 to-red-600 rounded-full mx-auto mt-2 mb-3"></div>
+        </p>{" "}
+        <div className="w-24 h-1  bg-gradient-to-r from-orange-400 via-pink-500 to-red-600 rounded-full mx-auto mt-2 mb-3"></div>
         <p className="text-gray-600 mt-2 text-sm sm:text-m  leading-relaxed">
-          Create advanced developer tools that software engineers would use directly in their workflow.
+          Create advanced developer tools that software engineers would use
+          directly in their workflow.
           <br className="hidden sm:block" />
           Focus on 2025's most cutting-edge technologies and capabilities.
         </p>
@@ -251,17 +363,23 @@ export default function Home() {
         <div className="flex flex-col p-2">
           <div className="font-semibold text-2xl">Select Your Tech Stack</div>
           <p className="text-gray-500 tracking-tight text-sm">
-            Choose at least two technologies from different categories to create an advanced developer tool that leverages their most cutting-edge capabilities as of 2025.
+            Choose at least two technologies from different categories to create
+            an advanced developer tool that leverages their most cutting-edge
+            capabilities as of 2025.
           </p>
 
           <form className="pt-5" onSubmit={handleSubmit}>
             <div className="font-medium text-lg">Your Developer Role</div>
             <p className="text-gray-500 tracking-tight text-sm py-3">
-              Select your role to get tailored developer tool recommendations suitable for your specific workflow.
+              Select your role to get tailored developer tool recommendations
+              suitable for your specific workflow.
             </p>
 
             <div>
-              <label htmlFor="dev-role" className="text-sm font-medium leading-none block my-4">
+              <label
+                htmlFor="dev-role"
+                className="text-sm font-medium leading-none block my-4"
+              >
                 Role
               </label>
 
@@ -275,11 +393,15 @@ export default function Home() {
                   <option value="">Select your role</option>
                   <option value="Frontend Engineer">Frontend Engineer</option>
                   <option value="Backend Engineer">Backend Engineer</option>
-                  <option value="Full Stack Engineer">Full Stack Engineer</option>
+                  <option value="Full Stack Engineer">
+                    Full Stack Engineer
+                  </option>
                   <option value="DevOps Engineer">DevOps Engineer</option>
                   <option value="Data Engineer">Data Engineer</option>
                   <option value="Data Analyst">Data Analyst</option>
-                  <option value="Machine Learning Engineer">Machine Learning Engineer</option>
+                  <option value="Machine Learning Engineer">
+                    Machine Learning Engineer
+                  </option>
                   <option value="Security Engineer">Security Engineer</option>
                 </select>
                 <div className="pointer-events-none absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
@@ -291,13 +413,15 @@ export default function Home() {
                     stroke="currentColor"
                     strokeWidth="2"
                   >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M19 9l-7 7-7-7"
+                    />
                   </svg>
                 </div>
               </div>
-
             </div>
-
 
             {!role ? (
               <div className="bg-card text-center py-6 border mt-6 border-dashed rounded-md text-gray-500 border-gray-400">
@@ -305,7 +429,10 @@ export default function Home() {
               </div>
             ) : (
               <div>
-                <label htmlFor="dev-project-type" className="text-sm font-medium leading-none block my-4">
+                <label
+                  htmlFor="dev-project-type"
+                  className="text-sm font-medium leading-none block my-4"
+                >
                   Project Type
                 </label>
                 <div className="relative">
@@ -332,18 +459,46 @@ export default function Home() {
                       stroke="currentColor"
                       strokeWidth="2"
                     >
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M19 9l-7 7-7-7"
+                      />
                     </svg>
                   </div>
                 </div>
-                {renderTechSelection(1, "Primary Tech Stack", category1, setCategory1, technology1, setTechnology1)}
-                {renderTechSelection(2, "Secondary Tech Stack", category2, setCategory2, technology2, setTechnology2)}
-                {renderTechSelection(3, "Optional Tech Stack", category3, setCategory3, technology3, setTechnology3)}
+                {renderTechSelection(
+                  1,
+                  "Primary Tech Stack",
+                  category1,
+                  setCategory1,
+                  technology1,
+                  setTechnology1
+                )}
+                {renderTechSelection(
+                  2,
+                  "Secondary Tech Stack",
+                  category2,
+                  setCategory2,
+                  technology2,
+                  setTechnology2
+                )}
+                {renderTechSelection(
+                  3,
+                  "Optional Tech Stack",
+                  category3,
+                  setCategory3,
+                  technology3,
+                  setTechnology3
+                )}
 
                 <div className="mt-8">
-                  <div className="font-medium text-lg mb-2">Project Complexity Level</div>
+                  <div className="font-medium text-lg mb-2">
+                    Project Complexity Level
+                  </div>
                   <p className="text-gray-500 tracking-tight text-sm mb-6">
-                    Choose how complex the project should be based on your experience level and challenge preference.
+                    Choose how complex the project should be based on your
+                    experience level and challenge preference.
                   </p>
 
                   <Slider.Root
@@ -367,7 +522,9 @@ export default function Home() {
                     {complexityLabels.map((label, idx) => (
                       <span
                         key={label}
-                        className={`cursor-pointer ${complexityValue[0] === idx ? "text-gray-600" : ""}`}
+                        className={`cursor-pointer ${
+                          complexityValue[0] === idx ? "text-gray-600" : ""
+                        }`}
                         onClick={() => setComplexityValue([idx])}
                       >
                         {label}
@@ -376,9 +533,12 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="mt-8">
-                  <div className="font-medium text-lg mb-2">Additional Requirements</div>
+                  <div className="font-medium text-lg mb-2">
+                    Additional Requirements
+                  </div>
                   <p className="text-gray-500 tracking-tight text-sm mb-4">
-                    Add any specific requirements, constraints, or ideas you'd like to include in your project.
+                    Add any specific requirements, constraints, or ideas you'd
+                    like to include in your project.
                   </p>
                   <textarea
                     value={customInput}
@@ -400,11 +560,12 @@ export default function Home() {
               </div>
             )}
 
-
             {/* Error Message */}
             {error && (
               <div className="bg-card border-0 rounded-lg shadow-sm mt-4 bg-[hsl(0deg_89.66%_60.4%)] py-2 px-2">
-                <p className="text-sm text-center text-white opacity-95">{error}</p>
+                <p className="text-sm text-center text-white opacity-95">
+                  {error}
+                </p>
               </div>
             )}
 
@@ -432,8 +593,12 @@ export default function Home() {
                       </span>
                     </button>
                   </div>
-                  <h2 className="text-2xl font-semibold text-pink-500 mb-2 mr-5">{result.projectIdea?.title}</h2>
-                  <p className="text-gray-700 text-sm sm:text-base">{result.projectIdea?.description}</p>
+                  <h2 className="text-2xl font-semibold text-pink-500 mb-2 mr-5">
+                    {result.projectIdea?.title}
+                  </h2>
+                  <p className="text-gray-700 text-sm sm:text-base">
+                    {result.projectIdea?.description}
+                  </p>
                 </div>
 
                 {/* Card 2: Implementation Steps */}
@@ -447,7 +612,12 @@ export default function Home() {
                       onClick={() =>
                         navigator.clipboard.writeText(
                           result.implementationSteps
-                            ?.map((stepObj: any, idx: number) => `${idx + 1}. ${stepObj.step}\n${stepObj.details}`)
+                            ?.map(
+                              (stepObj: any, idx: number) =>
+                                `${idx + 1}. ${stepObj.step}\n${
+                                  stepObj.details
+                                }`
+                            )
                             .join("\n\n")
                         )
                       }
@@ -459,15 +629,32 @@ export default function Home() {
                       </span>
                     </button>
                   </div>
-                  <h2 className="text-2xl font-semibold text-pink-500 mb-4 mr-5">Implementation</h2>
-                  <ol className="list-decimal list-inside space-y-4 text-gray-700 text-sm sm:text-base">
-                    {result.implementationSteps?.map((stepObj: any, idx: number) => (
-                      <li key={idx}>
-                        <strong>{stepObj.step}</strong>
-                        <p className="mt-1">{stepObj.details}</p>
-                      </li>
-                    ))}
-                  </ol>
+                  <h2 className="text-2xl font-semibold text-pink-500 mb-4 mr-5">
+                    Implementation
+                  </h2>
+                  <h2 className="text-2xl font-semibold text-pink-500 mb-4 mr-5">
+                    Implementation
+                  </h2>
+                  <ul className=" space-y-4 text-gray-700 text-sm sm:text-base">
+                    {result.implementationSteps?.map(
+                      (stepObj: any, idx: number) => {
+                        // Remove any "Step X: " prefix from AI response
+                        const cleanedStep = stepObj.step.replace(
+                          /^Step\s\d+:\s*/,
+                          ""
+                        );
+
+                        return (
+                          <li key={idx}>
+                            <strong>
+                              Step {idx + 1}: {cleanedStep}
+                            </strong>
+                            <p className="mt-1">{stepObj.details}</p>
+                          </li>
+                        );
+                      }
+                    )}
+                  </ul>
                 </div>
 
                 {/* --------------------------------------------------------------------- */}
@@ -482,9 +669,13 @@ export default function Home() {
                       type="button"
                       onClick={() =>
                         navigator.clipboard.writeText(
-                          `${result.resumeSummary?.title}\n\nTechnologies: ${result.resumeSummary?.technologies
+                          `${
+                            result.resumeSummary?.title
+                          }\n\nTechnologies: ${result.resumeSummary?.technologies
                             ?.split("|")
-                            .join(", ")}\n\n${result.resumeSummary?.points?.join("\n")}`
+                            .join(
+                              ", "
+                            )}\n\n${result.resumeSummary?.points?.join("\n")}`
                         )
                       }
                       className="text-token-text-secondary hover:bg-token-bg-secondary rounded-lg p-1 text-gray-600 hover:text-gray-900 active:text-gray-700 hover:shadow-md hover:scale-110 active:scale-90 transition-transform duration-200 ease-in-out"
@@ -496,7 +687,9 @@ export default function Home() {
                     </button>
                   </div>
 
-                  <h2 className="text-2xl font-bold text-pink-500 mr-5">{result.resumeSummary?.title}</h2>
+                  <h2 className="text-2xl font-bold text-pink-500 mr-5">
+                    {result.resumeSummary?.title}
+                  </h2>
 
                   {/* Technologies as soft badges */}
                   <div className="flex flex-wrap gap-2 ">
@@ -514,12 +707,13 @@ export default function Home() {
 
                   {/* Points List */}
                   <ul className="list-disc list-inside space-y-2 text-gray-700 text-sm sm:text-base pl-2">
-                    {result.resumeSummary?.points?.map((point: string, idx: number) => (
-                      <li key={idx}>{point}</li>
-                    ))}
+                    {result.resumeSummary?.points?.map(
+                      (point: string, idx: number) => (
+                        <li key={idx}>{point}</li>
+                      )
+                    )}
                   </ul>
                 </div>
-
 
                 {/* --------------------------------------------------------------------- */}
 
@@ -550,19 +744,17 @@ export default function Home() {
                     {result.techstack?.title || "Technology Stack"}
                   </h2>
                   <ul className="list-disc list-inside space-y-2 text-gray-700 text-sm sm:text-base pl-2">
-                    {result.techstack?.techstack?.map((item: any, idx: number) => (
-                      <li key={idx}>
-                        <strong> {item[0]} :</strong> {item[1]}
-                      </li>
-                    ))}
+                    {result.techstack?.techstack?.map(
+                      (item: any, idx: number) => (
+                        <li key={idx}>
+                          <strong> {item[0]} :</strong> {item[1]}
+                        </li>
+                      )
+                    )}
                   </ul>
                 </div>
-
               </div>
             )}
-
-
-
 
             {/* Submit Button */}
             {!result ? (
@@ -570,21 +762,32 @@ export default function Home() {
                 <button
                   type="submit"
                   disabled={!canGenerate || loading}
-                  className={`text-white inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-gradient-to-r from-orange-500 via-pink-500 to-red-600 ${!canGenerate ? "opacity-50 cursor-not-allowed" : "hover:from-orange-700 hover:to-red-700 hover:via-pink-600"} h-10 px-4 py-2 w-full border-0 mt-8`}>
-                  {loading ? "Generating..." : canGenerate ? "Generate" : "Free Tier Limit Reached"}
+                  className={`text-white inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-gradient-to-r from-orange-500 via-pink-500 to-red-600 ${
+                    !canGenerate
+                      ? "opacity-50 cursor-not-allowed"
+                      : "hover:from-orange-700 hover:to-red-700 hover:via-pink-600"
+                  } h-10 px-4 py-2 w-full border-0 mt-8`}
+                >
+                  {loading
+                    ? "Generating..."
+                    : canGenerate
+                    ? "Generate"
+                    : "Free Tier Limit Reached"}
                 </button>
-
-
-
               </div>
             ) : (
               <button
                 type="submit"
                 disabled={!canGenerate}
-                className={`text-white inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50  bg-gradient-to-r from-orange-400 via-pink-500 to-red-600 hover:from-orange-700 hover:to-red-700 hover:via-pink-600 h-10 px-4 py-2 w-full border-0 mt-8" ${!canGenerate ? "opacity-50 cursor-not-allowed" : "hover:from-orange-700 hover:to-red-700 hover:via-pink-600"} h-10 px-4 py-2 w-full border-0 mt-8`}>
-                {canGenerate ? "  Generate Something New" : "Free Tier Limit Reached"}
-
-
+                className={`text-white inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50  bg-gradient-to-r from-orange-400 via-pink-500 to-red-600 hover:from-orange-700 hover:to-red-700 hover:via-pink-600 h-10 px-4 py-2 w-full border-0 mt-8" ${
+                  !canGenerate
+                    ? "opacity-50 cursor-not-allowed"
+                    : "hover:from-orange-700 hover:to-red-700 hover:via-pink-600"
+                } h-10 px-4 py-2 w-full border-0 mt-8`}
+              >
+                {canGenerate
+                  ? "  Generate Something New"
+                  : "Free Tier Limit Reached"}
               </button>
             )}
           </form>
@@ -605,7 +808,6 @@ export default function Home() {
         <div className="flex items-center justify-center space-x-2 text-gray-400 text-xs font-mono tracking-tighter py-1">
           <p>Powered by Google Gemini</p>
         </div>
-
       </div>
     </div>
   );

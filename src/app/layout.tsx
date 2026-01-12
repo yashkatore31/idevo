@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Project Idea Generater",
+  title: "Project Idea Generator",
   description: "Created By Yash Katore",
 };
 
@@ -25,11 +25,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <ThemeProvider attribute="class" forcedTheme="light" disableTransitionOnChange>
-        {children}
+      <head>
+        {/* Satoshi Variable font via CDN */}
+        <link
+      rel="stylesheet"
+      href="https://api.fontshare.com/v2/css?f[]=satoshi@1,2&display=swap"
+    />
+      </head>
+       <body className="font-satoshi antialiased">
+        <ThemeProvider
+          attribute="class"
+          forcedTheme="light"
+          disableTransitionOnChange
+        >
+          {children}
         </ThemeProvider>
       </body>
     </html>

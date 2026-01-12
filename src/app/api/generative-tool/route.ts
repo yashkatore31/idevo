@@ -1,46 +1,58 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextResponse } from "next/server";
 
+// Initialize Gemini AI client
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 
+// Extract JSON safely from AI response
 function extractJSON(text: string) {
-  const jsonMatch = text.match(
-    /```json\s*([\s\S]*?)```|```([\s\S]*?)```|([\s\S]*)/
-  );
+  const jsonMatch = text.match(/```json\s*([\s\S]*?)```|```([\s\S]*?)```|([\s\S]*)/);
   if (!jsonMatch) return text;
   return (jsonMatch[1] || jsonMatch[2] || jsonMatch[3]).trim();
 }
 
+// Safe JSON parser with trailing comma handling
+function safeParseJSON(text: string) {
+  try {
+    const cleanText = text.replace(/,\s*}/g, "}").replace(/,\s*]/g, "]");
+    return JSON.parse(cleanText);
+  } catch (err) {
+    console.error("JSON parse failed:", err);
+    return null;
+  }
+}
+
 export async function POST(req: Request) {
   try {
+    console.log("=== Incoming request ===");
     const body = await req.json();
+    console.log("Request body:", JSON.stringify(body, null, 2));
+
     const { role, stacks, complexity, customInput, projectType } = body;
 
     if (!role || !stacks?.length || !complexity) {
+      console.warn("Invalid input:", body);
       return NextResponse.json({ message: "Invalid input." }, { status: 400 });
     }
 
-    const techStack = stacks
-      .map((s: any) => `${s.technology} (${s.category})`)
-      .join(", ");
+    // Convert stacks into string for prompt
+    const techStackStr = stacks.map((s: any) => `${s.technology} (${s.category})`).join(", ");
+    console.log("Tech stack string:", techStackStr);
 
+    // Prepare prompt for Gemini
     const prompt = `
-You are an expert-level software engineer living in the year 2025.
+You are an expert software engineer in 2025.
 
-Recommend a completely original, up-to-date, and inventive project idea tailored for a ${role} to create ${projectType} using this technology stack:
-${techStack}
+Recommend a completely original, up-to-date, and inventive project idea tailored for a ${role} to create ${projectType} using this tech stack:
+${techStackStr}
 
-The project should align with the ${complexity} skill level.
-Also, consider the following input while generating the idea: ${customInput}.
+Skill level: ${complexity}
+Additional input: ${customInput || "None"}
 
-Strictly do NOT include any overdone or cliché project ideas, including:
-blockchain solutions, dApps, chat applications, learning/course portals, recipe tools, personal portfolios, popular app clones, or city/travel explorers.
-
-Aim for a novel, standout, and applicable solution—something that clearly breaks away from the ordinary.
-
-Keep the wording straightforward and understandable to non-native English speakers.
-
-Return ONLY a JSON object with the exact format below—no surrounding text, headings, or markdown:
+Rules:
+- Do NOT include blockchain, dApps, chat apps, clones, learning portals, recipe tools, portfolios, or city/travel explorers.
+- Generate a novel, standout project.
+- Return ONLY valid JSON in this exact format:
 
 {
   "projectIdea": {
@@ -48,29 +60,35 @@ Return ONLY a JSON object with the exact format below—no surrounding text, hea
     "description": "Detailed description of the project idea."
   },
   "implementationSteps": [
-    {
-      "step": "Step 1: Title",
-      "details": "Details for step 1."
-    },
-    {
-      "step": "Step 2: Title",
-      "details": "Details for step 2."
-    }
+    { "step": "Step 1: Title", "details": "Details for step 1." },
+    { "step": "Step 2: Title", "details": "Details for step 2." },
+    { "step": "Step 3: Title", "details": "Details for step 3." },
+    { "step": "Step 4: Title", "details": "Details for step 4." },
+    { "step": "Step 5: Title", "details": "Details for step 5." },
+    { "step": "Step 6: Title", "details": "Details for step 6." }
   ],
   "techstack": {
-    "title": "",
-    "techstack": needs to be cover all possible stacks and libraries can be used [
-      "name",
-      "usage"
+    "title": "Core Technologies and Libraries",
+    "techstack": [
+      ["Next.js", "Frontend framework for UI and routing"],
+      ["React", "Component-based UI library"],
+      ["TypeScript", "Type-safe frontend and backend code"],
+      ["Tailwind CSS", "Utility-first styling framework"],
+      ["Node.js", "Backend runtime"],
+      ["Express.js", "Backend web framework"],
+      ["Gemini API", "AI for contextual content generation"],
+      ["Next-Auth.js", "Authentication library"],
+      ["Prisma", "ORM for PostgreSQL"],
+      ["PostgreSQL", "Relational database"]
     ]
   },
   "resumeSummary": {
     "title": "Resume Summary",
-    "technologies": "List of technologies used in the project.(eg format: tech1 | tech2 | tech3.)",
+    "technologies": "Next.js | React | TypeScript | Tailwind CSS | Node.js | Express.js | Gemini API | Next-Auth.js | Prisma | PostgreSQL",
     "points": [
-      "Point 1",
-      "Point 2",
-      "Point 3"
+      "Point 1: Describe implementation details and architecture",
+      "Point 2: Highlight tech stack usage and AI integration",
+      "Point 3: Show project outcome, results, or impact"
     ]
   }
 }
@@ -78,38 +96,38 @@ Return ONLY a JSON object with the exact format below—no surrounding text, hea
 Unique request id: ${Math.random().toString(36).slice(2)}
 `;
 
+    console.log("=== Prompt sent to Gemini ===", prompt);
+
     const model = genAI.getGenerativeModel({
-      model: "gemini-1.5-flash",
+      model: "gemini-2.5-flash",
       generationConfig: {
         temperature: 0.85,
-        maxOutputTokens: 1024,
+        maxOutputTokens: 4096,
+        responseMimeType: "application/json",
       },
     });
 
     const result = await model.generateContent(prompt);
-    console.log("AI request sent with prompt:", prompt);
+    console.log("=== Raw AI result object ===", result);
 
-    const response = result.response;
-    const rawText = (await response.text()).trim();
-    console.log("AI raw response text:", rawText);
+    const rawText = (await result.response.text()).trim();
+    console.log("=== Raw AI text ===", rawText);
 
     const jsonText = extractJSON(rawText);
+    console.log("=== Extracted JSON text ===", jsonText);
 
-    let data;
-    try {
-      data = JSON.parse(jsonText);
-      console.log("Parsed AI response as JSON:", data);
-    } catch (parseErr) {
-      console.error("Failed to parse AI response as JSON:", parseErr);
+    const data = safeParseJSON(jsonText);
+
+    if (!data) {
+      console.error("Failed to parse JSON. Returning raw text.");
       return NextResponse.json({ message: rawText }, { status: 200 });
     }
+
+    console.log("=== Parsed AI response JSON ===", JSON.stringify(data, null, 2));
 
     return NextResponse.json(data);
   } catch (err) {
     console.error("Gemini API error:", err);
-    return NextResponse.json(
-      { message: "Internal server error." },
-      { status: 500 }
-    );
+    return NextResponse.json({ message: "Internal server error." }, { status: 500 });
   }
 }

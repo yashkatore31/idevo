@@ -1,1 +1,14 @@
 @import "tailwindcss";
+
+/* Define Satoshi globally */
+@layer base {
+  :root {
+    --font-satoshi: "Satoshi", ui-sans-serif, system-ui, -apple-system,
+      BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+      "Noto Sans", sans-serif;
+  }
+
+  body {
+    font-family: var(--font-satoshi);
+  }
+}
