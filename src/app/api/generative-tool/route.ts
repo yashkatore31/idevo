@@ -60,12 +60,12 @@ Rules:
     "description": "Detailed description of the project idea."
   },
   "implementationSteps": [
-    { "step": "Step 1: Title", "details": "Details for step 1." },
-    { "step": "Step 2: Title", "details": "Details for step 2." },
-    { "step": "Step 3: Title", "details": "Details for step 3." },
-    { "step": "Step 4: Title", "details": "Details for step 4." },
-    { "step": "Step 5: Title", "details": "Details for step 5." },
-    { "step": "Step 6: Title", "details": "Details for step 6." }
+    { "step": "Step : Title", "details": "Details for step 1." },
+    { "step": "Step : Title", "details": "Details for step 2." },
+    { "step": "Step : Title", "details": "Details for step 3." },
+    { "step": "Step : Title", "details": "Details for step 4." },
+    { "step": "Step : Title", "details": "Details for step 5." },
+    { "step": "Step : Title", "details": "Details for step 6." }
   ],
   "techstack": {
     "title": "Core Technologies and Libraries",
