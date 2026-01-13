@@ -806,9 +806,6 @@ export default function Home() {
                   <h2 className="text-2xl font-semibold text-pink-500 mb-4 mr-5">
                     Implementation
                   </h2>
-                  <h2 className="text-2xl font-semibold text-pink-500 mb-4 mr-5">
-                    Implementation
-                  </h2>
                   <ul className=" space-y-4 text-gray-700 text-sm sm:text-base">
                     {result.implementationSteps?.map(
                       (stepObj: any, idx: number) => {
